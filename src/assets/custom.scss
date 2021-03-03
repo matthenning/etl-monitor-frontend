@@ -1,0 +1,30 @@
+/*
+ * Button groups should have the default border color to match other inputs
+ * vuetify uses !important on the some properties we're overriding, so we need that too
+ */
+a.v-btn.v-btn--outlined.v-btn--router.theme--light.v-size--default,
+div.toolbar-btn-toggle > button.v-btn.v-btn--outlined.theme--light.v-size--default {
+  height: 40px;
+  border-color: rgba(0, 0, 0, 0.38) !important;
+}
+
+a.v-btn.v-btn--outlined.v-btn--router.theme--dark.v-size--default,
+div.toolbar-btn-toggle > button.v-btn.v-btn--outlined.theme--dark.v-size--default  {
+  height: 40px;
+  border-color: rgb(118, 118, 118) !important;
+}
+
+div.toolbar-btn-toggle.v-item-group.theme--dark.v-btn-toggle {
+  background-color: transparent !important;
+}
+
+button.toolbar-btn {
+  height: 40px !important;
+}
+
+/*
+ * Aligns the left toolbar content with the parent container
+ */
+header.v-toolbar.container-aligned > div.v-toolbar__content {
+  padding: 0;
+}
