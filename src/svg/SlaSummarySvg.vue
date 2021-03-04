@@ -35,6 +35,7 @@
 </template>
 
 <script>
+
 import moment from "moment";
 
 export default {
@@ -42,7 +43,7 @@ export default {
     props: {
         sla: {
             type: Object,
-            default: () => {
+            /*default: () => {
                 return {
                     start: moment('2021-03-04T00:00:00+01:00'),
                     target: moment('2021-03-04T00:00:00+01:00'),
@@ -53,7 +54,7 @@ export default {
                     achieved: moment('2021-03-04T00:00:00+01:00'),
                     error_margin_minutes: 60
                 }
-            }
+            }*/
         },
         dimensions: {
             type: Object,
@@ -197,14 +198,21 @@ export default {
         slaEnd () {
             let dates = [ this.sla.start, this.sla.target ]
             if (this.sla.average) {
-                dates.push(this.sla.average.lower)
-                dates.push(this.sla.average.upper)
+                dates.push(moment(this.sla.start).add(this.sla.average.lower, 'minute'))
+                dates.push(moment(this.sla.start).add(this.sla.average.upper, 'minute'))
             }
-            if (this.sla.achieved) dates.push(this.sla.achieved);
-            let a = moment(this.sla.achieved).add(this.sla.error_margin_minutes, 'minute')
-            if (this.sla.error_margin_minutes) dates.push(a)
+            if (this.sla.achieved) {
+                dates.push(this.sla.achieved)
+            }
 
-            let highest = dates.sort((a, b) => a.valueOf() - b.valueOf())[dates.length - 1]
+            if (this.sla.target && this.sla.error_margin_minutes) {
+                let end = moment(this.sla.target)
+                end.add(this.sla.error_margin_minutes, 'minute')
+                dates.push(end)
+            }
+
+            dates.sort((a, b) => a.valueOf() - b.valueOf())
+            let highest = dates[dates.length - 1]
             return moment(highest).add(2, 'hour').startOf('hour')
         }
 
