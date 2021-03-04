@@ -28,3 +28,33 @@ button.toolbar-btn {
 header.v-toolbar.container-aligned > div.v-toolbar__content {
   padding: 0;
 }
+
+/*
+ * Remove left padding for SLA dashboard data tables
+ */
+.v-data-table.sla-dashboard-data-table > .v-data-table__wrapper > table > tbody > tr > td,
+.v-data-table.sla-dashboard-data-table > .v-data-table__wrapper > table > tbody > tr > th,
+.v-data-table.sla-dashboard-data-table > .v-data-table__wrapper > table > thead > tr > td,
+.v-data-table.sla-dashboard-data-table > .v-data-table__wrapper > table > thead > tr > th,
+.v-data-table.sla-dashboard-data-table > .v-data-table__wrapper > table > tfoot > tr > td,
+.v-data-table.sla-dashboard-data-table > .v-data-table__wrapper > table > tfoot > tr > th
+{
+  padding-left: 0;
+}
+
+.v-data-table.sla-dashboard-data-table > .v-data-table__wrapper > table > tbody > tr > th,
+.v-data-table.sla-dashboard-data-table > .v-data-table__wrapper > table > thead > tr > th,
+.v-data-table.sla-dashboard-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
+  font-size: inherit;
+}
+
+/*
+ * Add space between header and table header for sla dashboard data tables
+ */
+.sla-dashboard-data-table {
+  margin-top: 24px
+}
+
+text.text--secondary {
+  fill: rgba(0, 0, 0, 0.6) !important;
+}

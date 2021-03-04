@@ -1,17 +1,21 @@
 import SlaModel from "./SlaModel";
 import DeliverableSlaDefinitionModel from "@/store/models/Sla/DeliverableSlaDefinitionModel";
 
-export default class DeliverableSlaModel extends SlaModel {
-    static name = 'DeliverableSla'
-    static entity = 'deliverable_slas'
+export default class SlaDefinitionStatusModel extends SlaModel {
+    static name = 'SlaDefinitionStatus'
+    static entity = 'slas_definition_stati'
     static package = 'sla'
     static menu = false
+
+    static getRelationNames () {
+        return [
+        ]
+    }
 
     static fields () {
         return {
             ...super.fields(),
-
-            definition: this.belongsTo(DeliverableSlaDefinitionModel, 'sla_definition_id')
+            name: this.attr(null)
         }
     }
 }

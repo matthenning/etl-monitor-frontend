@@ -76,7 +76,6 @@
 
             loadPage () {
                 this.loading = true
-                window.console.log(this.endpoint_params)
                 ModelFactory.fetchWithPagination(
                     this.model,
                     this.pagination,

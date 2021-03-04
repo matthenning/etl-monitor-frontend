@@ -1,6 +1,6 @@
 <template>
     <v-toolbar flat class="container-aligned">
-        <span class="text--secondary">View</span>
+        <span class="body-2">View</span>
         <v-btn-toggle class="toolbar-btn-toggle ml-2" v-model="activeView">
             <v-btn outlined value="feed" :to="route('sla', 'dashboard', 'feed')">
                 <v-icon left>mdi-sort-calendar-ascending</v-icon>
@@ -38,7 +38,7 @@
                         v-bind="attrs"
                         v-on="on"
                     ></v-text-field>
-                    <span class="text--secondary ml-6">Filter</span>
+                    <span class="body-2 ml-6">Filter</span>
                 </template>
                 <v-date-picker v-model="selectedDate" no-title scrollable
                                @input="datePickerActive = false">
