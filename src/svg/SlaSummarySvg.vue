@@ -1,25 +1,30 @@
 <template>
     <svg version="1.2" :height="dimensions.height" :width="dimensions.width">
-        <text x="0" y="45" class="caption text--secondary">{{ textStart }}</text>
-        <rect x="35" y="40" :width="dimensions.rangeWidth" height="2" fill="#D2D2D2" />
-        <rect x="35" y="35" :width="dimensions.startEndLineWidth" height="12" fill="#D2D2D2" />
-        <rect :x="dimensions.rangeWidth + 33" y="35" :width="dimensions.startEndLineWidth" height="12" fill="#D2D2D2" />
-        <text :x="dimensions.rangeWidth + 40" y="45" class="caption text--secondary">{{ textEnd }}</text>
+        <text x="0" y="45" class="caption" :fill="color.text">{{ textStart }}</text>
+        <rect :x="dimensions.textBoxStart" y="40" :width="dimensions.rangeWidth" height="2" :fill="color.light1.stroke" />
+        <rect :x="dimensions.textBoxStart" y="35" :width="dimensions.startEndLineWidth" height="12" :fill="color.light1.stroke" />
+        <rect :x="dimensions.rangeWidth + 33" y="35" :width="dimensions.startEndLineWidth" height="12" :fill="color.light1.stroke" />
+        <text :x="dimensions.rangeWidth + 40" y="45" class="caption" :fill="color.text">{{ textEnd }}</text>
 
-        <svg v-if="nowIsInRange">
-            <line :x1="positionNow" y1="2" :x2="positionNow" y2="47" opacity="50%" :stroke="colorNowMarker" stroke-width="1" stroke-dasharray="2" />
+        <svg v-if="nowIsInRange" :x="positionNow" y="4">
+            <line :x1="0" y1="0" :x2="0" :y2="dimensions.height - 2" opacity="50%" :stroke="colorNowMarker" stroke-width="2" stroke-dasharray="4 1" />
         </svg>
 
-        <svg :x="positionSlaTarget" y="45" width="60" height="30" v-if="sla.target">
-            <line x1="27" :y1="6" x2="31" :y2="3" :stroke="colorNowMarker" stroke-width="2" />
-            <line x1="30" :y1="3" x2="34" :y2="6" :stroke="colorNowMarker" stroke-width="2" />
+        <svg :x="positionSlaTarget" y="55" height="20" width="60" v-if="sla.target">
+            <rect x="0" y="0" width="100%" height="100%" :fill="color.light2.fill" :stroke="color.light2.stroke" rx="3" ry="3" />
             <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" class="caption font-weight-bold text--secondary">{{ textTarget }}</text>
         </svg>
 
-        <rect v-if="sla.average" :x="positionAverageStart" y="30" :width="widthAverage" height="10" fill="#EEEEEE" />
+        <svg :x="positionSlaTarget" y="45" width="60" height="30" v-if="sla.target">
+            <rect x="30" y="3" width="1" height="7" :fill="colorNowMarker" />
+            <line x1="27" :y1="6" x2="31" :y2="3" :stroke="colorNowMarker" stroke-width="2" />
+            <line x1="30" :y1="3" x2="34" :y2="6" :stroke="colorNowMarker" stroke-width="2" />
+        </svg>
 
-        <rect x="37" y="42" :width="widthSuccess" height="3" fill="#96c8cc" opacity="50%" />
-        <rect :x="positionWarning" y="42" :width="widthWarning" height="3" fill="#ddd030" opacity="50%" />
+        <rect v-if="sla.average" :x="positionAverageStart" y="30" :width="widthAverage" height="10" :fill="color.light1.fill" />
+
+        <rect x="37" y="42" :width="widthSuccess" height="3" :fill="this.color.success.fill" opacity="50%" />
+        <rect :x="positionWarning" y="42" :width="widthWarning" height="3" :fill="color.warning.fill" opacity="50%" />
 
         <svg :x="positionSlaAchieved" y="5" height="20" width="70" v-if="sla.achieved">
             <rect x="0" y="0" width="100%" height="100%" :fill="colorFillAchievement" :stroke="colorStrokeAchievement" rx="3" ry="3" />
@@ -37,8 +42,11 @@
 <script>
 
 import moment from "moment";
+import Svg from "@/svg/Svg";
 
 export default {
+
+    extends: Svg,
 
     props: {
         sla: {
@@ -60,7 +68,7 @@ export default {
             type: Object,
             default: () => {
                 return {
-                    height: 70,
+                    height: 76,
                     width: 270,
                     rangeWidth: 150,
                     startEndLineWidth: 2,
@@ -130,11 +138,8 @@ export default {
         },
 
         positionNow () {
-            let pctNow = moment().diff(this.sla.start, 'minute') / this.durationSla * 100
-            let pos = this.dimensions.rangeWidth / 100 * pctNow + this.dimensions.textBoxStart - 30
-            // Adjust for rect width of 2
-            if (pos < 6) return 6
-            if (pos > 154) return 154
+            let pctNow = Math.abs(moment().diff(this.sla.start, 'minute')) / this.durationSla * 100
+            let pos = this.dimensions.rangeWidth / 100 * pctNow + this.dimensions.textBoxStart
 
             return pos
         },
@@ -143,9 +148,6 @@ export default {
             if (!this.sla.target) return
             let pctTarget = this.sla.target.diff(this.sla.start, 'minute') / this.durationSla * 100
             let pos = this.dimensions.rangeWidth / 100 * pctTarget + this.dimensions.textBoxStart - 30
-            // Adjust for rect width of 2
-            if (pos < 7) return 7
-            if (pos > 154) return 154
 
             return pos
         },
@@ -175,24 +177,24 @@ export default {
         colorFillAchievement () {
             let achieved = this.sla.achieved
             if (!achieved) return
-            if (achieved.isBefore(this.sla.target)) return '#96c8cc'
-            if (this.sla.error_margin_minutes && moment(achieved).add(this.sla.error_margin_minutes, 'minute').isBefore(this.sla.target)) return '#f6f69a'
-            return '#fab9bf'
+            if (achieved.isBefore(this.sla.target)) return this.color.success.fill
+            if (this.sla.error_margin_minutes && moment(achieved).add(this.sla.error_margin_minutes, 'minute').isBefore(this.sla.target)) return this.color.warning.fill
+            return this.color.critical.fill
         },
         colorStrokeAchievement () {
             let achieved = this.sla.achieved
             if (!achieved) return
-            if (achieved.isBefore(this.sla.target)) return '#91c3c7'
-            if (this.sla.error_margin_minutes && moment(achieved).add(this.sla.error_margin_minutes, 'minute').isBefore(this.sla.target)) return '#f6f67a'
-            return '#f6b4ba'
+            if (achieved.isBefore(this.sla.target)) return this.color.success.stroke
+            if (this.sla.error_margin_minutes && moment(achieved).add(this.sla.error_margin_minutes, 'minute').isBefore(this.sla.target)) return this.color.warning.stroke
+            return this.color.critical.stroke
         },
         colorNowMarker () {
             if (this.sla.achieved) {
-                if (this.sla.achieved.isBefore(this.sla.target)) return '#91c3c7'
-                return '#f6b4ba'
+                if (this.sla.achieved.isBefore(this.sla.target)) return this.color.success.stroke
+                return this.color.critical.stroke
             }
 
-            return '#A0A0A0'
+            return this.color.default.stroke
         },
 
         slaEnd () {

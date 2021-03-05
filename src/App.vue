@@ -44,6 +44,8 @@
 
             <v-spacer/>
 
+            <v-btn @click="debug">Debug</v-btn>
+
             <v-menu left bottom offset-y>
                 <template v-slot:activator="{ on }">
                     <v-btn text v-on="on">
@@ -173,6 +175,9 @@
         },
 
         methods: {
+            debug () {
+                axios.get('/api/v1/sla/_debug')
+            },
             toggleNightMode() {
                 this.$vuetify.theme.dark = !this.$vuetify.theme.dark
             },
