@@ -1,6 +1,4 @@
 import Model from "../Model"
-import UserSettingModel from "./UserSettingModel"
-import PermissionModel from "./PermissionModel"
 import SlaStatisticModel from "@/store/models/Sla/SlaStatisticModel";
 
 export default class SlaModel extends Model {
@@ -25,6 +23,8 @@ export default class SlaModel extends Model {
             }
         }
     }
+
+    static childModelNames = [ 'DeliverableSlaModel', 'AvailabilitySlaModel' ]
 
     static fields () {
         return {

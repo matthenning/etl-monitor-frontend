@@ -49,21 +49,7 @@ export default {
     extends: Svg,
 
     props: {
-        sla: {
-            type: Object,
-            /*default: () => {
-                return {
-                    start: moment('2021-03-04T00:00:00+01:00'),
-                    target: moment('2021-03-04T00:00:00+01:00'),
-                    average: {
-                        lower: 120,
-                        upper: 240
-                    },
-                    achieved: moment('2021-03-04T00:00:00+01:00'),
-                    error_margin_minutes: 60
-                }
-            }*/
-        },
+        sla: Object,
         dimensions: {
             type: Object,
             default: () => {

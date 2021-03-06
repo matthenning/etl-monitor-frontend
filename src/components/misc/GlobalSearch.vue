@@ -16,15 +16,7 @@
         prepend-inner-icon="mdi-magnify">
         <template v-slot:item="data">
             <template>
-                <v-list-item :to="data.item.url">
-                    <v-list-item-avatar>
-                        <v-icon>{{ data.item.icon }}</v-icon>
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                        <v-list-item-title v-html="data.item.name"></v-list-item-title>
-                        <v-list-item-subtitle v-html="data.item.info"></v-list-item-subtitle>
-                    </v-list-item-content>
-                </v-list-item>
+                <sla-definition-search-list-item v-if="data.item.group === 'sla_definitions'" :definition="data.item"></sla-definition-search-list-item>
             </template>
         </template>
     </v-autocomplete>
@@ -34,8 +26,11 @@
 <script>
 import GlobalSearch from "@/util/custom_fetchers/GlobalSearch";
 import models from "@/store/models";
+import SlaDefinitionSearchListItem from "@/components/lists/SlaDefinitionSearchListItem";
+import entities from "@/store/entities";
 
 export default {
+    components: {SlaDefinitionSearchListItem},
 
     data () {
         return {
@@ -56,13 +51,14 @@ export default {
         fillResults (results) {
             this.items = []
             Object.keys(results.data).forEach((k) => {
-                this.items.push({ header: k })
+                this.items.push({ header: entities[k] })
 
                 results.data[k].forEach((r) => {
                     this.items.push({
                         id: r.id,
                         name: r.name,
                         info: r.info,
+                        model: r.model,
                         url: models[r.model + 'Model'].view('show', r.id),
                         icon: r.icon,
                         group: k

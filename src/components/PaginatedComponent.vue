@@ -89,10 +89,7 @@
 
             addCurrentPageItemIds (ids) {
                 if (!Array.isArray(ids)) ids = [ids]
-                if (this.model.entity === 'animals') window.console.log(this.pagination.current_page_item_ids)
-                if (this.model.entity === 'animals') ids
                 this.pagination.current_page_item_ids = this.pagination.current_page_item_ids.concat(ids)
-                if (this.model.entity === 'animals') window.console.log(this.pagination.current_page_item_ids)
             },
 
             updatePagination (pagination, current_page_item_ids = null) {

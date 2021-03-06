@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <daily-deliverable-dashboard></daily-deliverable-dashboard>
+        <daily-dashboard></daily-dashboard>
 
     </div>
 
@@ -29,12 +29,12 @@
 
 <script>
 import Dashboard from "@/views/sla/Dashboard";
-import DailyDeliverableDashboard from "@/components/dashboards/sla/DailyDeliverableDashboard";
+import DailyDashboard from "@/components/dashboards/sla/DailyDashboard";
 
 export default {
 
     components: {
-        DailyDeliverableDashboard
+        DailyDashboard
     },
 
     extends: Dashboard

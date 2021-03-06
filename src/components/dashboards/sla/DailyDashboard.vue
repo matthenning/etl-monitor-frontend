@@ -2,19 +2,16 @@
 
     <div>
         <v-row>
-            <v-col lg="4" xl="3" align-self="center">
-                <span class="text-h5">Deliverable</span>
-            </v-col>
             <v-col md="hidden" lg="3" xl="2">
                 <div class="body-1">Completed</div>
                 <div class="font-weight-bold">
-                    <span class="text-h5">80%</span>
+                    <span class="text-h5">{{ completed }}%</span>
                 </div>
             </v-col>
             <v-col md="hidden" lg="3" xl="2">
                 <span class="body-1">Success</span>
                 <div class="font-weight-bold">
-                    <span class="text-h5">100%</span>
+                    <span class="text-h5">{{ success }}%</span>
                 </div>
             </v-col>
         </v-row>
@@ -25,6 +22,9 @@
                       :items="objects"
                       :items-per-page.sync="pagination.per_page"
                       :footer-props="{itemsPerPageOptions:[5, 10, 20, 50, 100]}">
+            <template v-slot:header.status="{ item }">
+                <span class="body-2">Status</span>
+            </template>
             <template v-slot:header.definition.name="{ item }">
                 <span class="body-2">Name</span>
             </template>
@@ -47,13 +47,16 @@
                 <span class="body-2">Actions</span>
             </template>
 
-            <template v-slot:item.definition.name="{ item }">
+            <template v-slot:item.status="{ item }">
                 <template>
                     <v-icon v-if="item.status === 'achieved'" class="mr-2" color="success">mdi-check</v-icon>
                     <v-icon v-if="item.status === 'failed'" class="mr-2" color="error">mdi-close</v-icon>
                     <v-icon v-if="item.status === 'late'" class="mr-2" color="warning">mdi-alert-octagon-outline</v-icon>
                     <v-icon v-if="item.status === 'waiting'" class="mr-2">mdi-timer-sand</v-icon>
                 </template>
+            </template>
+            <template v-slot:item.definition.name="{ item }">
+                <v-icon class="mr-2">{{ item.definition._icon }}</v-icon>
                 <router-link to="">
                     <a class="font-weight-bold">{{ item.definition.name }}</a>
                 </router-link>
@@ -61,16 +64,30 @@
             <template v-slot:item.definition.status.name="{ item }">
                 <span>{{ item.definition.status.name }}</span>
             </template>
-            <template v-slot:item.range_end="{ item }">
-                <div>{{ getTime(item.range_end) }}</div>
-                <div v-if="diffInDays(item.range_end) > 0" class="text-caption">in {{ diffInDays(item.range_end) }} days</div>
-                <div v-if="diffInDays(item.range_end) < 0" class="text-caption">{{ Math.abs(diffInDays(item.range_end)) }} days ago</div>
+            <template v-slot:item.target="{ item }">
+                <template v-if="item.type === 'deliverable'">
+                    <div>{{ getTime(item.range_end) }}</div>
+                    <div v-if="diffInDays(item.range_end) > 0" class="text-caption">in {{ diffInDays(item.range_end) }} days</div>
+                    <div v-if="diffInDays(item.range_end) < 0" class="text-caption">{{ Math.abs(diffInDays(item.range_end)) }} days ago</div>
+                </template>
+                <template v-if="item.type === 'availability'">
+                    <div>{{ item.target_percent }}%</div>
+                </template>
             </template>
             <template v-slot:item.landing="{ item }">
-                <sla-summary-svg :sla="getSlaLandingObject(item)"></sla-summary-svg>
+                <template v-if="item.type === 'deliverable'">
+                    <deliverable-sla-summary-svg :sla="getDeliverableSlaLandingObject(item)"></deliverable-sla-summary-svg>
+                </template>
+                <template v-if="item.type === 'availability'">
+                    <availability-sla-summary-svg :sla="getAvailabilitySlaLandingObject(item)"></availability-sla-summary-svg>
+                </template>
             </template>
             <template v-slot:item.history="{ item }">
-                <sla-history-svg :history="getSlaHistoryObject(item)"></sla-history-svg>
+                <template v-if="item.type === 'deliverable'">
+                    <deliverable-sla-history-svg :history="getSlaHistoryObject(item)"></deliverable-sla-history-svg>
+                </template>
+                <template v-if="item.type === 'availability'">
+                </template>
             </template>
             <template v-slot:item.responsible="{ item }">
                 <span class="font-weight-bold">John Doe</span>
@@ -89,11 +106,14 @@
 import PaginatedComponent from "@/components/PaginatedComponent";
 import DeliverableSlaModel from "@/store/models/Sla/DeliverableSlaModel";
 import moment from "moment";
-import SlaSummarySvg from "@/svg/SlaSummarySvg";
-import SlaHistorySvg from "@/svg/SlaHistorySvg";
+import SlaModel from "@/store/models/Sla/SlaModel";
+import AvailabilitySlaModel from "@/store/models/Sla/AvailabilitySlaModel";
+import DeliverableSlaHistorySvg from "@/svg/DeliverableSlaHistorySvg";
+import DeliverableSlaSummarySvg from "@/svg/DeliverableSlaSummarySvg";
+import AvailabilitySlaSummarySvg from "@/svg/AvailabilitySlaSummarySvg";
 
 export default {
-    components: {SlaHistorySvg, SlaSummarySvg},
+    components: {AvailabilitySlaSummarySvg, DeliverableSlaHistorySvg, DeliverableSlaSummarySvg},
     extends: PaginatedComponent,
 
     props: {
@@ -114,11 +134,19 @@ export default {
                 sort_direction: 'asc',
                 filter: {}
             },
-            model: DeliverableSlaModel,
-            relations: [ 'definition', 'definition.status', 'statistic' ],
+            model: SlaModel,
+            models: [ DeliverableSlaModel, AvailabilitySlaModel ],
+            relations: [],
             endpoint: 'inRange',
             endpoint_params: [],
             headers: [
+                {
+                    text: 'Status',
+                    align: 'start',
+                    sortable: false,
+                    value: 'status',
+                    width: 50
+                },
                 {
                     text: 'Name',
                     align: 'start',
@@ -133,8 +161,8 @@ export default {
                 },
                 {
                     text: 'Target',
-                    sortable: true,
-                    value: 'range_end'
+                    sortable: false,
+                    value: 'target'
                 },
                 {
                     text: 'Landing',
@@ -164,11 +192,30 @@ export default {
     },
 
     computed: {
+        objects () {
+            if (!this.ready_to_load) return null
+            let results = []
+            this.models.forEach((m) => {
+                m.query().whereIdIn(this.pagination.current_page_item_ids)
+                    .with(['definition', 'definition.status', 'statistic'])
+                    .get().forEach((o) => {
+                    results.push(o)
+                })
+            })
+
+            return results
+        },
         rangeStart () {
             return moment(this.$parent.$refs.selector.selectedDate).startOf('day').format()
         },
         rangeEnd () {
             return moment(this.$parent.$refs.selector.selectedDate).endOf('day').format()
+        },
+        completed () {
+            return Math.round(Math.random() * 100)
+        },
+        success () {
+            return Math.round(Math.random() * 100)
         }
     },
 
@@ -194,7 +241,19 @@ export default {
         diffInDays (ts) {
             return moment(ts).diff(moment(), 'day')
         },
-        getSlaLandingObject (sla) {
+        getAvailabilitySlaLandingObject (sla) {
+            return {
+                start: moment(sla.range_start),
+                target:  moment(sla.range_end),
+                average: sla.statistic ? {
+                    lower: sla.statistic.average_duration_minutes_lower,
+                    upper: sla.statistic.average_duration_minutes_upper
+                } : null,
+                achieved: sla.achieved_at ? moment(sla.achieved_at) : null,
+                error_margin_minutes: sla.error_margin_minutes
+            }
+        },
+        getDeliverableSlaLandingObject (sla) {
             return {
                 start: moment(sla.range_start),
                 target:  moment(sla.range_end),

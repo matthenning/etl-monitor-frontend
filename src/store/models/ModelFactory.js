@@ -120,7 +120,8 @@ export default class ModelFactory {
             model_name = model._model + 'Model'
             models[model_name].insert({ data: [model] })
             models[model_name].announce(model.id)
-            if (model._model === requested_model.name) {
+            let isChildModel = requested_model.childModelNames?.indexOf(model_name) !== -1
+            if (model._model === requested_model.name || isChildModel) {
                 ids.push(model.id)
                 models[model_name].enableListener(model.id)
             }

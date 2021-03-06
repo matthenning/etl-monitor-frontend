@@ -1,6 +1,7 @@
 import Model from "../Model"
 import SlaDefinitionStatusModel from "@/store/models/Sla/SlaDefinitionStatusModel"
 import DeliverableSlaModel from "@/store/models/Sla/DeliverableSlaModel";
+import SlaDefinitionStatisticModel from "@/store/models/Sla/SlaDefinitionStatisticModel";
 
 export default class SlaDefinitionModel extends Model {
     static name = 'SlaDefinition'
@@ -22,7 +23,9 @@ export default class SlaDefinitionModel extends Model {
             email: this.attr(null),
 
             status: this.belongsTo(SlaDefinitionStatusModel, 'status_id'),
-            slas: this.hasMany(DeliverableSlaModel, 'definition_id')
+            slas: this.hasMany(DeliverableSlaModel, 'definition_id'),
+
+            statistic: this.hasOne(SlaDefinitionStatisticModel, 'sla_definition_id')
         }
     }
 }
