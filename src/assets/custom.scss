@@ -58,3 +58,11 @@ header.v-toolbar.container-aligned > div.v-toolbar__content {
 text.text--secondary {
   fill: rgba(0, 0, 0, 0.6) !important;
 }
+
+/*
+ * Some background color fixes for night mode
+ */
+.theme--dark.v-application,
+.theme--dark.v-data-table {
+  background-color: #272727 !important;
+}

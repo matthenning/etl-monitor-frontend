@@ -31,7 +31,7 @@
             <template v-slot:header.definition.status.name="{ item }">
                 <span class="body-2">Lifecycle</span>
             </template>
-            <template v-slot:header.range_end="{ item }">
+            <template v-slot:header.target="{ item }">
                 <span class="body-2">Target</span>
             </template>
             <template v-slot:header.landing="{ item }">
@@ -244,19 +244,15 @@ export default {
         getAvailabilitySlaLandingObject (sla) {
             return {
                 start: moment(sla.range_start),
-                target:  moment(sla.range_end),
-                average: sla.statistic ? {
-                    lower: sla.statistic.average_duration_minutes_lower,
-                    upper: sla.statistic.average_duration_minutes_upper
-                } : null,
-                achieved: sla.achieved_at ? moment(sla.achieved_at) : null,
-                error_margin_minutes: sla.error_margin_minutes
+                end: moment(sla.range_end),
+                progress: sla.statistic?.progress_history,
+                target_percent: sla.target_percent
             }
         },
         getDeliverableSlaLandingObject (sla) {
             return {
                 start: moment(sla.range_start),
-                target:  moment(sla.range_end),
+                target: moment(sla.range_end),
                 average: sla.statistic ? {
                     lower: sla.statistic.average_duration_minutes_lower,
                     upper: sla.statistic.average_duration_minutes_upper

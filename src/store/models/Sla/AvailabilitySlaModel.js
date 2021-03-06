@@ -1,5 +1,6 @@
 import SlaModel from "./SlaModel";
 import AvailabilitySlaDefinitionModel from "@/store/models/Sla/AvailabilitySlaDefinitionModel";
+import AvailabilitySlaStatisticModel from "@/store/models/Sla/AvailabilitySlaStatisticModel";
 
 export default class AvailabilitySlaModel extends SlaModel {
     static name = 'AvailabilitySla'
@@ -11,7 +12,8 @@ export default class AvailabilitySlaModel extends SlaModel {
         return {
             ...super.fields(),
 
-            definition: this.belongsTo(AvailabilitySlaDefinitionModel, 'sla_definition_id')
+            definition: this.belongsTo(AvailabilitySlaDefinitionModel, 'sla_definition_id'),
+            statistic: this.hasOne(AvailabilitySlaStatisticModel, 'sla_id')
         }
     }
 }

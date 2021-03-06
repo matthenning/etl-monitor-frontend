@@ -218,7 +218,7 @@ export default {
                 return h + 'h ' + m + 'm'
             }
 
-            let h = (diff_min/60) % 24
+            let h = Math.round((diff_min/60) % 24)
             let d = Math.round(diff_min / 1440)
 
             return d + 'd ' + h + 'h'

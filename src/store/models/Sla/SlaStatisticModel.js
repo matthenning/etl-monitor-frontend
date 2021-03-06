@@ -12,11 +12,6 @@ export default class SlaStatisticModel extends Model {
         return {
             ...super.fields(),
             sla_id: this.attr(null),
-            type: this.attr(null),
-
-            average_duration_minutes_lower: this.attr(null),
-            average_duration_minutes_upper: this.attr(null),
-            achievement_history: this.attr([])
         }
     }
 }

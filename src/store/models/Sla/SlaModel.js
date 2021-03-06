@@ -43,9 +43,7 @@ export default class SlaModel extends Model {
             progress_last_intime_id: this.attr(null),
             progress_first_intime_achieved_id: this.attr(null),
             progress_last_late_id: this.attr(null),
-            progress_first_late_achieved_id: this.attr(null),
-
-            statistic: this.hasOne(SlaStatisticModel, 'sla_id')
+            progress_first_late_achieved_id: this.attr(null)
         }
     }
 }

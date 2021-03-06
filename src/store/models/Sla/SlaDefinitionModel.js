@@ -21,6 +21,7 @@ export default class SlaDefinitionModel extends Model {
             status_id: this.attr(null),
             name: this.attr(''),
             email: this.attr(null),
+            target_percent: this.attr(null),
 
             status: this.belongsTo(SlaDefinitionStatusModel, 'status_id'),
             slas: this.hasMany(DeliverableSlaModel, 'definition_id'),

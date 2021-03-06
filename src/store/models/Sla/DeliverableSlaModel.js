@@ -1,5 +1,6 @@
 import SlaModel from "./SlaModel";
 import DeliverableSlaDefinitionModel from "@/store/models/Sla/DeliverableSlaDefinitionModel";
+import DeliverableSlaStatisticModel from "@/store/models/Sla/DeliverableSlaStatisticModel";
 
 export default class DeliverableSlaModel extends SlaModel {
     static name = 'DeliverableSla'
@@ -11,7 +12,8 @@ export default class DeliverableSlaModel extends SlaModel {
         return {
             ...super.fields(),
 
-            definition: this.belongsTo(DeliverableSlaDefinitionModel, 'sla_definition_id')
+            definition: this.belongsTo(DeliverableSlaDefinitionModel, 'sla_definition_id'),
+            statistic: this.hasOne(DeliverableSlaStatisticModel, 'sla_id')
         }
     }
 }

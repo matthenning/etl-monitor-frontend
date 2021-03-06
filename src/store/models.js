@@ -9,12 +9,16 @@ import SlaStatisticModel from "@/store/models/Sla/SlaStatisticModel";
 import SlaDefinitionStatisticModel from "@/store/models/Sla/SlaDefinitionStatisticModel";
 import AvailabilitySlaDefinitionModel from "@/store/models/Sla/AvailabilitySlaDefinitionModel";
 import AvailabilitySlaModel from "@/store/models/Sla/AvailabilitySlaModel";
+import AvailabilitySlaStatisticModel from "@/store/models/Sla/AvailabilitySlaStatisticModel";
+import DeliverableSlaStatisticModel from "@/store/models/Sla/DeliverableSlaStatisticModel";
 
 export default {
     DeliverableSlaDefinitionModel: DeliverableSlaDefinitionModel,
     DeliverableSlaModel: DeliverableSlaModel,
+    DeliverableSlaStatisticModel: DeliverableSlaStatisticModel,
     AvailabilitySlaDefinitionModel: AvailabilitySlaDefinitionModel,
     AvailabilitySlaModel: AvailabilitySlaModel,
+    AvailabilitySlaStatisticModel: AvailabilitySlaStatisticModel,
     SlaDefinitionStatusModel: SlaDefinitionStatusModel,
     SlaStatisticModel: SlaStatisticModel,
     SlaDefinitionStatisticModel: SlaDefinitionStatisticModel,
