@@ -12,6 +12,8 @@
             <path :d="graphPath" :stroke="color.success.stroke" :fill="color.success.fill" />
         </svg>
 
+        <rect :x="positionGraphX" :y="positionGraphY + dimensions.graphHeight - 2" height="2" :width="widthGraph + 1" :fill="color.default.fill" />
+
         <rect :x="positionTextEndX" :y="positionGraphY" :height="dimensions.graphHeight" width="2" :fill="color.default.fill" />
         <rect :x="positionTextEndX" :y="positionTargetY - 2" height="2" width="5" :fill="color.default.fill" />
         <text :x="positionTextEndX + 8" :y="positionTargetY + 3" class="caption text--secondary">{{ sla.target_percent }}%</text>
