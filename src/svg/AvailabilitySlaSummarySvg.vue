@@ -1,23 +1,33 @@
 <template>
-    <svg version="1.2" :height="dimensions.height" :width="dimensions.width">
-        <rect :x="dimensions.textBoxStart - 3" :y="positionGraphY - 2" height="2" width="5" :fill="color.default.fill" />
-        <text :x="dimensions.textBoxStart - 35" :y="positionGraphY + 3" class="caption text--secondary">100%</text>
+    <div>
+        <svg version="1.2" :height="dimensions.height" :width="dimensions.width" v-if="sla && sla.progress.filter((p) => p).length > 0">
+            <svg :x="dimensions.textBoxStart + 3" :y="positionGraphY + dimensions.graphHeight + 4" :width="widthGraph - 1">
+                <rect v-for="(p, i) in sla.progress" :v-key="p" :x="positionPointX(i) - 5" :y="0" :width="widthStatus"  height="5" :fill="fillStatus(p)" />
+            </svg>
 
-        <rect :x="dimensions.textBoxStart - 3" :y="positionGraphY + dimensions.graphHeight - 2" height="2" width="5" :fill="color.default.fill" />
-        <text :x="dimensions.textBoxStart - 21" :y="positionGraphY + dimensions.graphHeight + 3" class="caption text--secondary">0%</text>
+            <rect :x="dimensions.textBoxStart - 3" :y="positionGraphY - 2" height="2" width="5" :fill="color.default.fill" />
+            <text :x="dimensions.textBoxStart - 35" :y="positionGraphY + 3" class="caption text--secondary">100%</text>
 
-        <rect :x="dimensions.textBoxStart" :y="positionGraphY" :height="dimensions.graphHeight" width="2" :fill="color.default.fill" />
+            <rect :x="dimensions.textBoxStart - 3" :y="positionGraphY + dimensions.graphHeight + 1" height="2" width="5" :fill="color.default.fill" />
+            <text :x="dimensions.textBoxStart - 28" :y="positionGraphY + dimensions.graphHeight + 6" class="caption text--secondary">{{ graphMin }}%</text>
 
-        <svg :x="positionGraphX" :y="positionGraphY" :width="widthGraph" :height="dimensions.graphHeight">
-            <path :d="graphPath" :stroke="color.success.stroke" :fill="color.success.fill" />
+            <text :x="dimensions.textBoxStart - 14" :y="positionGraphY + dimensions.graphHeight + 25" class="caption text--secondary">{{ sla.start.format('HH:mm') }}</text>
+
+            <rect :x="dimensions.textBoxStart" :y="positionGraphY" :height="dimensions.graphHeight + 10" width="2" :fill="color.default.fill" />
+
+            <svg :x="positionGraphX" :y="positionGraphY" :width="widthGraph" :height="dimensions.graphHeight">
+                <path :d="graphPath" :stroke="color.success.stroke" :fill="color.success.fill" />
+            </svg>
+
+            <rect :x="positionGraphX" :y="positionGraphY + dimensions.graphHeight + 1" height="2" :width="widthGraph + 1" :fill="color.default.fill" />
+
+            <rect :x="positionTextEndX" :y="positionGraphY" :height="dimensions.graphHeight + 10" width="2" :fill="color.default.fill" />
+            <rect :x="positionTextEndX" :y="positionTargetY - 2" height="2" width="5" :fill="color.default.fill" />
+            <text :x="positionTextEndX + 8" :y="positionTargetY + 2" class="caption text--secondary">{{ sla.target_percent }}%</text>
+
+            <text :x="positionTextEndX - 15" :y="positionGraphY + dimensions.graphHeight + 25" class="caption text--secondary">{{ textTarget }}</text>
         </svg>
-
-        <rect :x="positionGraphX" :y="positionGraphY + dimensions.graphHeight - 2" height="2" :width="widthGraph + 1" :fill="color.default.fill" />
-
-        <rect :x="positionTextEndX" :y="positionGraphY" :height="dimensions.graphHeight" width="2" :fill="color.default.fill" />
-        <rect :x="positionTextEndX" :y="positionTargetY - 2" height="2" width="5" :fill="color.default.fill" />
-        <text :x="positionTextEndX + 8" :y="positionTargetY + 3" class="caption text--secondary">{{ sla.target_percent }}%</text>
-    </svg>
+    </div>
 </template>
 
 <script>
@@ -37,7 +47,7 @@ export default {
                 return {
                     height: 76,
                     width: 270,
-                    graphHeight: 55,
+                    graphHeight: 35,
                     graphWidth: 144,
                     textBoxStart: 35
                 }
@@ -63,7 +73,7 @@ export default {
             return this.dimensions.textBoxStart + 2
         },
         positionGraphY () {
-            return (this.dimensions.height - this.dimensions.graphHeight) / 2 + 2
+            return 15
         },
         widthGraph () {
             return this.dimensions.graphWidth
@@ -75,7 +85,18 @@ export default {
             return this.positionGraphX + this.widthGraph + 1
         },
         positionTargetY () {
-            return this.positionGraphY + this.dimensions.graphHeight - this.dimensions.graphHeight / 100 * this.sla.target_percent
+            return this.positionPointY(this.sla.target_percent) + this.positionGraphY //this.positionGraphY + this.dimensions.graphHeight - this.dimensions.graphHeight / 100 * this.sla.target_percent
+        },
+        graphMin () {
+            let m = this.sla.progress.filter((p) => p).min()
+            if (m > this.sla.target_percent - 10) return this.sla.target_percent - 10
+            return m
+        },
+        graphMax () {
+            return 100
+        },
+        graphRange () {
+            return this.graphMax - this.graphMin
         },
         graphPath () {
             if (this.sla.progress.length < 1) return
@@ -83,18 +104,33 @@ export default {
             this.sla.progress.forEach((progress, i) => {
                 if (!progress) return
                 if (first) {
-                    p += this.svgCmd('M', 0, i)
+                    p += this.svgCmd('M', this.graphMin, i)
                     first = false
                 }
                 p += this.svgCmd('L', progress, i)
                 last = i
             })
 
-            p += this.svgCmd('L', 0, last)
+            p += this.svgCmd('L', this.graphMin, last)
             p += ' Z'
 
             return p
-        }
+        },
+        widthStatus () {
+            return Math.round(this.widthGraph / 100 * (1 / (this.sla.progress.length - 1) * 100))
+        },
+        textTarget () {
+            if (!this.sla.end) return
+
+            if (!this.sla.end.diff(this.sla.start, 'hour') > 24) {
+                let dd = this.sla.end.diff(this.sla.start, 'day')
+                let dh = this.sla.end.diff(this.sla.start, 'hour') % 24
+
+                return dd + 'd ' + dh + 'h'
+            }
+
+            return this.sla.end.format('HH:mm')
+        },
     },
 
     methods: {
@@ -106,7 +142,13 @@ export default {
             return Math.round(this.widthGraph / 100 * iPct)
         },
         positionPointY (value) {
-            return Math.round(this.heightGraph / 100 * (100-value))
+            let pctV = 100 - (value - this.graphMin) / (100 - this.graphMin) * 100
+            return Math.round(this.heightGraph / 100 * pctV)
+        },
+        fillStatus (p) {
+            if (!p) return 'transparent';
+            if (p >= this.sla.target_percent) return this.color.success.fill
+            return this.color.critical.fill
         },
         getDurationString (diff_min) {
             if (diff_min < 60) {

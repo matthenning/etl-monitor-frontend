@@ -121,14 +121,17 @@
                 </v-card>
             </v-dialog>
             <v-container fluid>
-                <router-view></router-view>
+                <v-row>
+                    <v-col offset-xl="2" offset-lg="0" xl="8" lg="12">
+                        <router-view></router-view>
+                    </v-col>
+                </v-row>
             </v-container>
         </v-main>
     </v-app>
 </template>
 
 <script>
-    import scss from "./assets/custom.scss"
     import routes from "./router/routes"
     import Breadcrumbs from "./components/misc/Breadcrumbs"
     import Loader from "./components/misc/Loader"
@@ -169,7 +172,7 @@
         },
 
         computed: {
-            user() {
+            user () {
                 return UserModel.getQueryWithAllRelations().find(this.user_id)
             }
         },
@@ -200,7 +203,7 @@
             }
         },
 
-        created() {
+        created () {
             this.checkAuth()
             this.echo = window.echo
 

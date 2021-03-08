@@ -24,23 +24,32 @@
                       :items="objects"
                       :items-per-page.sync="pagination.per_page"
                       :footer-props="{itemsPerPageOptions:[5, 10, 20, 50, 100]}">
-            <template v-slot:header.status="{ item }">
-                <span class="body-2">Status</span>
-            </template>
             <template v-slot:header.definition.name="{ item }">
                 <span class="body-2">Name</span>
             </template>
-            <template v-slot:header.definition.status.name="{ item }">
+            <template v-slot:header.lifecycle="{ item }">
                 <span class="body-2">Lifecycle</span>
             </template>
-            <template v-slot:header.target="{ item }">
-                <span class="body-2">Target</span>
+            <template v-slot:header.monday="{ item }">
+                <span class="body-2">Monday</span>
             </template>
-            <template v-slot:header.landing="{ item }">
-                <span class="body-2">Landing</span>
+            <template v-slot:header.tuesday="{ item }">
+                <span class="body-2">Tuesday</span>
             </template>
-            <template v-slot:header.history="{ item }">
-                <span class="body-2">History</span>
+            <template v-slot:header.wednesday="{ item }">
+                <span class="body-2">Wednesday</span>
+            </template>
+            <template v-slot:header.thursday="{ item }">
+                <span class="body-2">Thursday</span>
+            </template>
+            <template v-slot:header.friday="{ item }">
+                <span class="body-2">Friday</span>
+            </template>
+            <template v-slot:header.saturday="{ item }">
+                <span class="body-2">Saturday</span>
+            </template>
+            <template v-slot:header.sunday="{ item }">
+                <span class="body-2">Sunday</span>
             </template>
             <template v-slot:header.responsible="{ item }">
                 <span class="body-2">Responsible</span>
@@ -49,42 +58,38 @@
                 <span class="body-2">Actions</span>
             </template>
 
-            <template v-slot:item.status="{ item }">
-                <template>
-                    <v-icon v-if="item.status === 'achieved'" class="mr-2" color="success">mdi-check</v-icon>
-                    <v-icon v-if="item.status === 'failed'" class="mr-2" color="error">mdi-close</v-icon>
-                    <v-icon v-if="item.status === 'late'" class="mr-2" color="warning">mdi-alert-octagon-outline</v-icon>
-                    <v-icon v-if="item.status === 'waiting'" class="mr-2">mdi-timer-sand</v-icon>
-                </template>
-            </template>
             <template v-slot:item.definition.name="{ item }">
                 <v-icon class="mr-2">{{ item.definition._icon }}</v-icon>
                 <router-link to="">
                     <a class="font-weight-bold">{{ item.definition.name }}</a>
                 </router-link>
             </template>
-            <template v-slot:item.definition.status.name="{ item }">
+            <template v-slot:item.lifecycle="{ item }">
                 <span>{{ item.definition.status.name }}</span>
             </template>
-            <template v-slot:item.target="{ item }">
-                <achievement-pie :sla="getAchievementPieObject(item)"></achievement-pie>
+
+            <template v-slot:item.monday="{ item }">
+                <achievement-pie v-if="item[1]" :sla="getAchievementPieObject(item[1])"></achievement-pie>
             </template>
-            <template v-slot:item.landing="{ item }">
-                <template v-if="item.type === 'deliverable'">
-                    <deliverable-sla-summary-svg :sla="getDeliverableSlaLandingObject(item)"></deliverable-sla-summary-svg>
-                </template>
-                <template v-if="item.type === 'availability'">
-                    <availability-sla-summary-svg :sla="getAvailabilitySlaLandingObject(item)"></availability-sla-summary-svg>
-                </template>
+            <template v-slot:item.tuesday="{ item }">
+                <achievement-pie v-if="item[2]" :sla="getAchievementPieObject(item[2])"></achievement-pie>
             </template>
-            <template v-slot:item.history="{ item }">
-                <template v-if="item.type === 'deliverable'">
-                    <deliverable-sla-history-svg :history="getDeliverableSlaHistoryObject(item)"></deliverable-sla-history-svg>
-                </template>
-                <template v-if="item.type === 'availability'">
-                    <availability-sla-history-svg :history="getAvailabilitySlaHistoryObject(item)"></availability-sla-history-svg>
-                </template>
+            <template v-slot:item.wednesday="{ item }">
+                <achievement-pie v-if="item[3]" :sla="getAchievementPieObject(item[3])"></achievement-pie>
             </template>
+            <template v-slot:item.thursday="{ item }">
+                <achievement-pie v-if="item[4]" :sla="getAchievementPieObject(item[4])"></achievement-pie>
+            </template>
+            <template v-slot:item.friday="{ item }">
+                <achievement-pie v-if="item[5]" :sla="getAchievementPieObject(item[5])"></achievement-pie>
+            </template>
+            <template v-slot:item.saturday="{ item }">
+                <achievement-pie v-if="item[6]" :sla="getAchievementPieObject(item[6])"></achievement-pie>
+            </template>
+            <template v-slot:item.sunday="{ item }">
+                <achievement-pie v-if="item[7]" :sla="getAchievementPieObject(item[7])"></achievement-pie>
+            </template>
+
             <template v-slot:item.responsible="{ item }">
                 <span class="font-weight-bold">John Doe</span>
             </template>
@@ -141,40 +146,51 @@ export default {
             endpoint_params: [],
             headers: [
                 {
-                    text: 'Status',
-                    align: 'start',
-                    sortable: false,
-                    value: 'status',
-                    width: 50
-                },
-                {
                     text: 'Name',
                     align: 'start',
                     sortable: true,
                     value: 'definition.name'
                 },
                 {
-                    text: 'Status',
-                    align: 'start',
+                    text: 'Lifecycle',
+                    align: 'lifecycle',
                     sortable: true,
-                    value: 'definition.status.name'
+                    value: 'lifecycle'
                 },
                 {
-                    text: 'Target',
+                    text: 'Monday',
                     sortable: false,
-                    value: 'target'
+                    value: 'monday'
                 },
                 {
-                    text: 'Landing',
+                    text: 'Tuesday',
                     sortable: false,
-                    value: 'landing',
-                    width: 300
+                    value: 'tuesday'
                 },
                 {
-                    text: 'History',
+                    text: 'Wednesday',
                     sortable: false,
-                    value: 'history',
-                    width: 300
+                    value: 'wednesday'
+                },
+                {
+                    text: 'Thursday',
+                    sortable: false,
+                    value: 'thursday'
+                },
+                {
+                    text: 'Friday',
+                    sortable: false,
+                    value: 'friday'
+                },
+                {
+                    text: 'Saturday',
+                    sortable: false,
+                    value: 'saturday'
+                },
+                {
+                    text: 'Sunday',
+                    sortable: false,
+                    value: 'sunday'
                 },
                 {
                     text: 'Responsible',
@@ -195,22 +211,28 @@ export default {
         objects () {
             if (this.loading) return []
             if (!this.ready_to_load) return null
-            let results = []
+            let results = {}
             this.models.forEach((m) => {
                 m.query().whereIdIn(this.pagination.current_page_item_ids)
                     .with(['definition', 'definition.status', 'statistic'])
                     .get().forEach((o) => {
-                    results.push(o)
-                })
+                        if (!results[o.definition.id]) {
+                            results[o.definition.id] = {}
+                            results[o.definition.id].definition = o.definition
+                        }
+                        results[o.definition.id][moment(o.range_end).isoWeekday()] = o
+                    })
             })
 
-            return results
+            let defs = []
+            Object.keys(results).forEach((r) => defs.push(results[r]))
+            return defs
         },
         rangeStart () {
-            return moment(this.$parent.$refs.selector.selectedDate).startOf('day').format()
+            return moment(this.$parent.$refs.selector.selectedWeek).startOf('week').add(1, 'day').format()
         },
         rangeEnd () {
-            return moment(this.$parent.$refs.selector.selectedDate).endOf('day').format()
+            return moment(this.$parent.$refs.selector.selectedWeek).endOf('week').add(1, 'day').format()
         },
         completed () {
             return Math.round(Math.random() * 100)
@@ -241,50 +263,6 @@ export default {
         },
         diffInDays (ts) {
             return moment(ts).diff(moment(), 'day')
-        },
-        getAvailabilitySlaLandingObject (sla) {
-            return {
-                start: moment(sla.range_start),
-                end: moment(sla.range_end),
-                progress: sla.statistic?.progress_history,
-                target_percent: sla.target_percent
-            }
-        },
-        getDeliverableSlaLandingObject (sla) {
-            return {
-                start: moment(sla.range_start),
-                target: moment(sla.range_end),
-                average: sla.statistic ? {
-                    lower: sla.statistic.average_duration_minutes_lower,
-                    upper: sla.statistic.average_duration_minutes_upper
-                } : null,
-                achieved: sla.achieved_at ? moment(sla.achieved_at) : null,
-                error_margin_minutes: sla.error_margin_minutes
-            }
-        },
-        getDeliverableSlaHistoryObject (sla) {
-            return sla.statistic?.achievement_history.map((h) => {
-                return {
-                    sla_id: h.sla_id,
-                    status: h.status,
-                    start: moment(h.start),
-                    target: moment(h.end),
-                    achieved_at: moment(h.achieved_at),
-                    achieved: h.achieved_percent,
-                    error_margin_minutes: h.error_margin_minutes
-                }
-            })
-        },
-        getAvailabilitySlaHistoryObject (sla) {
-            return sla.statistic?.achievement_history.map((h) => {
-                return {
-                    sla_id: h.sla_id,
-                    day: moment(h.day),
-                    status: h.status,
-                    target_percent: h.target_percent,
-                    achieved_percent: h.achieved_percent
-                }
-            })
         },
         getAchievementPieObject (sla) {
             return {

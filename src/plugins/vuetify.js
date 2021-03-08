@@ -1,5 +1,5 @@
 import Vue from "vue"
-import Vuetify, {VBtn, VIcon, VSnackbar} from 'vuetify/lib'
+import Vuetify, {VSnackbar} from 'vuetify/lib'
 import colors from "vuetify/lib/util/colors"
 import VuetifyToast from "vuetify-toast-snackbar"
 
@@ -23,6 +23,15 @@ const vuetfiy = new Vuetify({
             }
         },
         dark: false
+    },
+    breakpoint: {
+        thresholds: {
+            xs: 0,
+            sm: 960,
+            md: 1280,
+            lg: 1920 - 16,
+            xl: 2000 - 16
+        }
     }
 })
 

@@ -6,6 +6,7 @@ import vuetify from "./plugins/vuetify"
 import axios from "axios"
 import '@mdi/font/css/materialdesignicons.css'
 import 'typeface-roboto/index.css'
+import './assets/custom.css'
 
 Vue.config.productionTip = false
 

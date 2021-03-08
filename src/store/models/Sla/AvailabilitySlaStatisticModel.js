@@ -11,7 +11,8 @@ export default class AvailabilitySlaStatisticModel extends SlaStatisticModel {
             ...super.fields(),
             sla_id: this.attr(null),
 
-            progress_history: this.attr([])
+            progress_history: this.attr([]),
+            achievement_history: this.attr([])
         }
     }
 }

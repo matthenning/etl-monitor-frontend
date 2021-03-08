@@ -13,7 +13,8 @@
         hide-details
         label="Search"
         solo-inverted
-        prepend-inner-icon="mdi-magnify">
+        prepend-inner-icon="mdi-magnify"
+        :menu-props="{maxHeight: 500}">
         <template v-slot:item="data">
             <template>
                 <sla-definition-search-list-item v-if="data.item.group === 'sla_definitions'" :definition="data.item"></sla-definition-search-list-item>

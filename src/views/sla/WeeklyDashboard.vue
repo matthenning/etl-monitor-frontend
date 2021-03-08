@@ -11,7 +11,7 @@
                 </span>
             </div>
             <div class="col col-12">
-                <dashboard-view-selector ref="selector" view="daily"></dashboard-view-selector>
+                <dashboard-view-selector ref="selector" view="weekly"></dashboard-view-selector>
             </div>
         </div>
 
@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <daily-dashboard></daily-dashboard>
+        <weekly-dashboard></weekly-dashboard>
 
     </div>
 
@@ -29,12 +29,12 @@
 
 <script>
 import Dashboard from "@/views/sla/Dashboard";
-import DailyDashboard from "@/components/dashboards/sla/DailyDashboard";
+import WeeklyDashboard from "@/components/dashboards/sla/WeeklyDashboard";
 
 export default {
 
     components: {
-        DailyDashboard
+        WeeklyDashboard
     },
 
     extends: Dashboard

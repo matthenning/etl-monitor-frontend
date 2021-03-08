@@ -24,7 +24,7 @@ let routes = [
     route(null, 'etl/dashboard', 'etl_dashboard', 'ETL Dashboard', 'mdi-chart-gantt', true, () => import('../views/etl/Dashboard')),
     route(null, 'sla/dashboard/feed', 'sla_dashboard', 'SLA Dashboard', 'mdi-timetable', true, () => import('../views/sla/FeedDashboard')),
     route(null, 'sla/dashboard/daily', 'sla_dashboard', 'SLA Dashboard', 'mdi-timetable', false, () => import('../views/sla/DailyDashboard')),
-    route(null, 'sla/dashboard/custom', 'sla_dashboard', 'SLA Dashboard', 'mdi-timetable', false, () => import('../views/sla/CustomDashboard')),
+    route(null, 'sla/dashboard/weekly', 'sla_dashboard', 'SLA Dashboard', 'mdi-timetable', false, () => import('../views/sla/WeeklyDashboard')),
 ]
 
 Object.keys(models).forEach((k) => {
