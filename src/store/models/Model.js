@@ -1,12 +1,26 @@
 import { Model as VuexModel } from '@vuex-orm/core'
 import config from "../../config"
-import ModelFactory from "@/store/models/ModelFactory";
+import Link from "@/util/Link";
+import models from "@/store/models";
 
 export default class Model extends VuexModel {
+    static name = ''
+    static entity = ''
+    static package = ''
+    static menu = false
+
     static baseUrl = config.api.basePath + config.api.prefix
     static webBaseUrl = config.web.basePath + config.web.prefix
     static icon = 'mdi-help'
-    static menu = false
+
+    constructor(...args) {
+        super(...args);
+        this.model = models[this.constructor.toString().split('(' || /s+/)[0].split(' ' || /s+/)[1] + 'Model'];
+    }
+
+    get _show () {
+        return Link.route(this.model.package, this.model.entity, this.id)
+    }
 
     static apiConfig = {
         actions: {

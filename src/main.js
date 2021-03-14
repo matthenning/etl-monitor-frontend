@@ -3,6 +3,7 @@ import App from "./App.vue"
 import router from "./router"
 import store from "./store"
 import vuetify from "./plugins/vuetify"
+import link from "./plugins/link"
 import axios from "axios"
 import '@mdi/font/css/materialdesignicons.css'
 import 'typeface-roboto/index.css'
@@ -18,6 +19,7 @@ axios.defaults.headers.common = {
 
 import proto from "@/util/proto";
 import Echo from "laravel-echo";
+import Link from "@/util/Link";
 proto.load()
 
 window.Pusher = require('pusher-js');
@@ -46,6 +48,8 @@ window.echo = new Echo({
         };
     },
 });
+
+Vue.use(link)
 
 window.vueApp = new Vue({
     router,

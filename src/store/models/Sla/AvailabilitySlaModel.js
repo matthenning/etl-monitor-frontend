@@ -1,6 +1,7 @@
 import SlaModel from "./SlaModel";
 import AvailabilitySlaDefinitionModel from "@/store/models/Sla/AvailabilitySlaDefinitionModel";
 import AvailabilitySlaStatisticModel from "@/store/models/Sla/AvailabilitySlaStatisticModel";
+import Link from "@/util/Link";
 
 export default class AvailabilitySlaModel extends SlaModel {
     static name = 'AvailabilitySla'

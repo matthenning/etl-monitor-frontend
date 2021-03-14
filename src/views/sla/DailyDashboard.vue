@@ -1,25 +1,26 @@
 <template>
 
     <div>
-
-        <div class="row">
-            <div class="col col-12">
+        <v-row>
+            <v-col>
                 <span class="text-sm-h3 font-weight-light">SLA Dashboard</span>
                 <v-divider vertical class="mx-8"></v-divider>
                 <span class="text-sm-h3">
                     <v-btn outlined large class="mb-3" color="accent">Load Collection</v-btn>
                 </span>
-            </div>
-            <div class="col col-12">
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col>
                 <dashboard-view-selector ref="selector" view="daily"></dashboard-view-selector>
-            </div>
-        </div>
+            </v-col>
+        </v-row>
 
-        <div class="row">
-            <div class="col col-12">
+        <v-row>
+            <v-col>
                 <v-divider></v-divider>
-            </div>
-        </div>
+            </v-col>
+        </v-row>
 
         <daily-dashboard></daily-dashboard>
 

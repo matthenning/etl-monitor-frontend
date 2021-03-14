@@ -1,5 +1,5 @@
 import Model from "../Model"
-import SlaDefinitionStatusModel from "@/store/models/Sla/SlaDefinitionStatusModel"
+import SlaDefinitionLifecycleModel from "@/store/models/Sla/SlaDefinitionLifecycleModel"
 import DeliverableSlaModel from "@/store/models/Sla/DeliverableSlaModel";
 import SlaDefinitionStatisticModel from "@/store/models/Sla/SlaDefinitionStatisticModel";
 
@@ -11,19 +11,19 @@ export default class SlaDefinitionModel extends Model {
 
     static getRelationNames () {
         return [
-            'slas', 'status'
+            'slas', 'lifecycle'
         ]
     }
 
     static fields () {
         return {
             ...super.fields(),
-            status_id: this.attr(null),
+            lifecycle_id: this.attr(null),
             name: this.attr(''),
             email: this.attr(null),
             target_percent: this.attr(null),
 
-            status: this.belongsTo(SlaDefinitionStatusModel, 'status_id'),
+            lifecycle: this.belongsTo(SlaDefinitionLifecycleModel, 'lifecycle_id'),
             slas: this.hasMany(DeliverableSlaModel, 'definition_id'),
 
             statistic: this.hasOne(SlaDefinitionStatisticModel, 'sla_definition_id')

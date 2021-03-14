@@ -1,61 +1,36 @@
 <template>
 
     <v-container fluid>
-        <v-row>
-            <v-col md="hidden" lg="3" xl="2">
-                <div class="body-1">Completed</div>
-                <div class="font-weight-bold">
-                    <span class="text-h5">{{ completed }}%</span>
-                </div>
-            </v-col>
-            <v-col md="hidden" lg="3" xl="2">
-                <span class="body-1">Success</span>
-                <div class="font-weight-bold">
-                    <span class="text-h5">{{ success }}%</span>
-                </div>
-            </v-col>
-        </v-row>
-
         <v-data-table v-if="objects"
                       class="sla-dashboard-data-table"
                       :loading="loading"
                       loading-text="Loading..."
                       :headers="headers"
-                      :items="objects"
+                      :items="Object.keys(objects)"
                       :items-per-page.sync="pagination.per_page"
                       :footer-props="{itemsPerPageOptions:[5, 10, 20, 50, 100]}">
-            <template v-slot:header.definition.name="{ item }">
-                <span class="body-2">Name</span>
-            </template>
-            <template v-slot:header.lifecycle="{ item }">
-                <span class="body-2">Lifecycle</span>
+            <template v-slot:header.week="{ item }">
+                <span class="body-2">Week</span>
             </template>
             <template v-slot:header.monday="{ item }">
-                <span class="body-2">{{ textDay(1) }}</span><br />
                 <span class="body-2">Monday</span>
             </template>
             <template v-slot:header.tuesday="{ item }">
-                <span class="body-2">{{ textDay(2) }}</span><br />
                 <span class="body-2">Tuesday</span>
             </template>
             <template v-slot:header.wednesday="{ item }">
-                <span class="body-2">{{ textDay(3) }}</span><br />
                 <span class="body-2">Wednesday</span>
             </template>
             <template v-slot:header.thursday="{ item }">
-                <span class="body-2">{{ textDay(4) }}</span><br />
                 <span class="body-2">Thursday</span>
             </template>
             <template v-slot:header.friday="{ item }">
-                <span class="body-2">{{ textDay(5) }}</span><br />
                 <span class="body-2">Friday</span>
             </template>
             <template v-slot:header.saturday="{ item }">
-                <span class="body-2">{{ textDay(6) }}</span><br />
                 <span class="body-2">Saturday</span>
             </template>
             <template v-slot:header.sunday="{ item }">
-                <span class="body-2">{{ textDay(7) }}</span><br />
                 <span class="body-2">Sunday</span>
             </template>
             <template v-slot:header.responsible="{ item }">
@@ -65,50 +40,44 @@
                 <span class="body-2">Actions</span>
             </template>
 
-            <template v-slot:item.definition.name="{ item }">
-                <v-icon class="mr-2">{{ item.definition._icon }}</v-icon>
-                <router-link to="">
-                    <a class="font-weight-bold">{{ item.definition.name }}</a>
-                </router-link>
-            </template>
-            <template v-slot:item.lifecycle="{ item }">
-                <span>{{ item.definition.lifecycle.name }}</span>
+            <template v-slot:item.week="{ item }">
+                {{ item }}
             </template>
 
             <template v-slot:item.monday="{ item }">
-                <achievement-pie v-if="item[1]" :sla="getAchievementPieObject(item[1])"></achievement-pie>
-                <timerange-weekly-start v-else-if="weeklyStartsOnDay(item, 1)"></timerange-weekly-start>
-                <timerange-weekly-exists v-else-if="weeklyExistsOnDay(item, 1)">E</timerange-weekly-exists>
+                <achievement-pie v-if="objects[item][1]" :sla="getAchievementPieObject(objects[item][1])"></achievement-pie>
+                <timerange-weekly-start v-else-if="weeklyStartsOnDay(objects[item], 1)"></timerange-weekly-start>
+                <timerange-weekly-exists v-else-if="weeklyExistsOnDay(objects[item], 1)">E</timerange-weekly-exists>
             </template>
             <template v-slot:item.tuesday="{ item }">
-                <achievement-pie v-if="item[2]" :sla="getAchievementPieObject(item[2])"></achievement-pie>
-                <timerange-weekly-start v-else-if="weeklyStartsOnDay(item, 2)">S</timerange-weekly-start>
-                <timerange-weekly-exists v-else-if="weeklyExistsOnDay(item, 2)">E</timerange-weekly-exists>
+                <achievement-pie v-if="objects[item][2]" :sla="getAchievementPieObject(objects[item][2])"></achievement-pie>
+                <timerange-weekly-start v-else-if="weeklyStartsOnDay(objects[item], 2)">S</timerange-weekly-start>
+                <timerange-weekly-exists v-else-if="weeklyExistsOnDay(objects[item], 2)">E</timerange-weekly-exists>
             </template>
             <template v-slot:item.wednesday="{ item }">
-                <achievement-pie v-if="item[3]" :sla="getAchievementPieObject(item[3])"></achievement-pie>
-                <timerange-weekly-start v-else-if="weeklyStartsOnDay(item, 3)">S</timerange-weekly-start>
-                <timerange-weekly-exists v-else-if="weeklyExistsOnDay(item, 3)">E</timerange-weekly-exists>
+                <achievement-pie v-if="objects[item][3]" :sla="getAchievementPieObject(objects[item][3])"></achievement-pie>
+                <timerange-weekly-start v-else-if="weeklyStartsOnDay(objects[item], 3)">S</timerange-weekly-start>
+                <timerange-weekly-exists v-else-if="weeklyExistsOnDay(objects[item], 3)">E</timerange-weekly-exists>
             </template>
             <template v-slot:item.thursday="{ item }">
-                <achievement-pie v-if="item[4]" :sla="getAchievementPieObject(item[4])"></achievement-pie>
-                <timerange-weekly-start v-else-if="weeklyStartsOnDay(item, 4)">S</timerange-weekly-start>
-                <timerange-weekly-exists v-else-if="weeklyExistsOnDay(item, 4)">E</timerange-weekly-exists>
+                <achievement-pie v-if="objects[item][4]" :sla="getAchievementPieObject(objects[item][4])"></achievement-pie>
+                <timerange-weekly-start v-else-if="weeklyStartsOnDay(objects[item], 4)">S</timerange-weekly-start>
+                <timerange-weekly-exists v-else-if="weeklyExistsOnDay(objects[item], 4)">E</timerange-weekly-exists>
             </template>
             <template v-slot:item.friday="{ item }">
-                <achievement-pie v-if="item[5]" :sla="getAchievementPieObject(item[5])"></achievement-pie>
-                <timerange-weekly-start v-else-if="weeklyStartsOnDay(item, 5)">S</timerange-weekly-start>
-                <timerange-weekly-exists v-else-if="weeklyExistsOnDay(item, 5)">E</timerange-weekly-exists>
+                <achievement-pie v-if="objects[item][5]" :sla="getAchievementPieObject(objects[item][5])"></achievement-pie>
+                <timerange-weekly-start v-else-if="weeklyStartsOnDay(objects[item], 5)">S</timerange-weekly-start>
+                <timerange-weekly-exists v-else-if="weeklyExistsOnDay(objects[item], 5)">E</timerange-weekly-exists>
             </template>
             <template v-slot:item.saturday="{ item }">
-                <achievement-pie v-if="item[6]" :sla="getAchievementPieObject(item[6])"></achievement-pie>
-                <timerange-weekly-start v-else-if="weeklyStartsOnDay(item, 6)">S</timerange-weekly-start>
-                <timerange-weekly-exists v-else-if="weeklyExistsOnDay(item, 6)">E</timerange-weekly-exists>
+                <achievement-pie v-if="objects[item][6]" :sla="getAchievementPieObject(objects[item][6])"></achievement-pie>
+                <timerange-weekly-start v-else-if="weeklyStartsOnDay(objects[item], 6)">S</timerange-weekly-start>
+                <timerange-weekly-exists v-else-if="weeklyExistsOnDay(objects[item], 6)">E</timerange-weekly-exists>
             </template>
             <template v-slot:item.sunday="{ item }">
-                <achievement-pie v-if="item[7]" :sla="getAchievementPieObject(item[7])"></achievement-pie>
-                <timerange-weekly-start v-else-if="weeklyStartsOnDay(item, 7)">S</timerange-weekly-start>
-                <timerange-weekly-exists v-else-if="weeklyExistsOnDay(item, 7)">E</timerange-weekly-exists>
+                <achievement-pie v-if="objects[item][7]" :sla="getAchievementPieObject(objects[item][7])"></achievement-pie>
+                <timerange-weekly-start v-else-if="weeklyStartsOnDay(objects[item], 7)">S</timerange-weekly-start>
+                <timerange-weekly-exists v-else-if="weeklyExistsOnDay(objects[item], 7)">E</timerange-weekly-exists>
             </template>
 
             <template v-slot:item.responsible="{ item }">
@@ -125,36 +94,30 @@
 </template>
 
 <script>
-import PaginatedComponent from "@/components/PaginatedComponent";
-import DeliverableSlaModel from "@/store/models/Sla/DeliverableSlaModel";
 import moment from "moment";
-import SlaModel from "@/store/models/Sla/SlaModel";
-import AvailabilitySlaModel from "@/store/models/Sla/AvailabilitySlaModel";
-import DeliverableSlaHistorySvg from "@/svg/DeliverableSlaHistorySvg";
-import DeliverableSlaSummarySvg from "@/svg/DeliverableSlaSummarySvg";
+import TimerangeWeeklyExists from "@/svg/TimerangeWeeklyExists";
+import TimerangeWeeklyStart from "@/svg/TimerangeWeeklyStart";
+import AchievementPie from "@/svg/AchievementPie";
 import AvailabilitySlaSummarySvg from "@/svg/AvailabilitySlaSummarySvg";
 import AvailabilitySlaHistorySvg from "@/svg/AvailabilitySlaHistorySvg";
-import AchievementPie from "@/svg/AchievementPie";
-import TimerangeWeeklyStart from "@/svg/TimerangeWeeklyStart";
-import TimerangeWeeklyExists from "@/svg/TimerangeWeeklyExists";
+import PaginatedComponent from "@/components/PaginatedComponent";
+import SlaModel from "@/store/models/Sla/SlaModel";
+import AvailabilitySlaModel from "@/store/models/Sla/AvailabilitySlaModel";
 
 export default {
+
+    extends: PaginatedComponent,
 
     components: {
         TimerangeWeeklyExists,
         TimerangeWeeklyStart,
         AchievementPie,
         AvailabilitySlaSummarySvg,
-        DeliverableSlaHistorySvg,
-        DeliverableSlaSummarySvg,
         AvailabilitySlaHistorySvg
     },
 
-    extends: PaginatedComponent,
-
     props: {
-        range_start: null,
-        range_end: null
+        definitionId: Number
     },
 
     data () {
@@ -171,22 +134,16 @@ export default {
                 filter: {}
             },
             model: SlaModel,
-            models: [ DeliverableSlaModel, AvailabilitySlaModel ],
-            relations: [ 'definition', 'statistic' ],
+            models: [ AvailabilitySlaModel ],
+            relations: [],
             endpoint: 'inRange',
             endpoint_params: [],
             headers: [
                 {
-                    text: 'Name',
+                    text: 'Week',
                     align: 'start',
                     sortable: true,
-                    value: 'definition.name'
-                },
-                {
-                    text: 'Lifecycle',
-                    align: 'start',
-                    sortable: true,
-                    value: 'lifecycle'
+                    value: 'week'
                 },
                 {
                     text: 'Monday',
@@ -264,36 +221,34 @@ export default {
             if (!this.ready_to_load) return null
             let results = {}
             this.models.forEach((m) => {
-                m.query().whereIdIn(this.pagination.current_page_item_ids)
-                    .with(['definition', 'definition.lifecycle', 'statistic'])
-                    .get().forEach((o) => {
-                        if (!o.definition) {
-                            window.console.log('Missing SLA definition', o)
-                            return
+                m.query().whereIdIn(this.pagination.current_page_item_ids).get().forEach((o) => {
+                    let year_week = moment(o.range_end).isoWeekYear() + '/' + moment(o.range_end).isoWeek() +
+                        ' - ' + moment(o.range_end).startOf('isoWeek').format('YYYY-MM-DD')
+
+                    if (!results[year_week]) {
+                        results[year_week] = {
+                            meta: {}
                         }
-                        if (!results[o.definition.id]) {
-                            results[o.definition.id] = {}
-                            results[o.definition.id].definition = o.definition
-                        }
-                        results[o.definition.id][moment(o.range_end).isoWeekday()] = o
-                    })
+                        results[year_week].meta.weekStart = moment(o.range_end).startOf('isoWeek')
+                    }
+
+                    results[year_week][moment(o.range_end).isoWeekday()] = o
+                })
             })
 
-            let defs = []
-            Object.keys(results).forEach((r) => defs.push(results[r]))
-            return defs
-        },
-        rangeStart () {
-            return moment(this.$parent.$refs.selector.selectedWeek).startOf('isoWeek')
-        },
-        rangeEnd () {
-            return moment(this.$parent.$refs.selector.selectedWeek).endOf('isoWeek')
+            return results
         },
         completed () {
             return Math.round(Math.random() * 100)
         },
         success () {
             return Math.round(Math.random() * 100)
+        },
+        rangeStart () {
+            return moment(this.$parent.$refs.selector.selectedDates[0]).startOf('isoWeek').format()
+        },
+        rangeEnd () {
+            return moment(this.$parent.$refs.selector.selectedDates[1]).endOf('isoWeek').format()
         }
     },
 
@@ -309,8 +264,8 @@ export default {
     methods: {
         updateEndpointParams () {
             this.endpoint_params = [
-                this.rangeStart.format(),
-                this.rangeEnd.format()
+                this.rangeStart,
+                this.rangeEnd
             ]
         },
         getTime (ts) {
@@ -328,28 +283,28 @@ export default {
                 achieved_at: sla.achieved_at
             }
         },
-        weeklyStartsOnDay (slas, dayOfWeek) {
-            let sla_k = Object.keys(slas).filter((k) => k !== 'definition')[0],
-                sla = slas[sla_k]
+        weeklyStartsOnDay (week, dayOfWeek) {
+            let sla_k = Object.keys(week).filter((k) => k !== 'meta')[0],
+                sla = week[sla_k]
             if (sla.timerange_type !== 'weekly') return
-            let day = moment(this.rangeStart).add(dayOfWeek - 1, 'day')
+            let day = moment(week.meta.weekStart).add(dayOfWeek - 1, 'day')
             return moment(sla.range_start).isSame(day, 'day')
         },
-        weeklyExistsOnDay (slas, dayOfWeek) {
-            let sla_k = Object.keys(slas).filter((k) => k !== 'definition')[0],
-                sla = slas[sla_k]
+        weeklyExistsOnDay (week, dayOfWeek) {
+            let sla_k = Object.keys(week).filter((k) => k !== 'meta')[0],
+                sla = week[sla_k]
             if (sla.timerange_type !== 'weekly') return
-            let day = moment(this.rangeStart).add(dayOfWeek - 1, 'day')
+            let day = moment(week.meta.weekStart).add(dayOfWeek - 1, 'day')
             return day.isBetween(moment(sla.range_start).startOf('day'), moment(sla.range_end).endOf('day'))
-        },
-        textDay (dayOfWeek) {
-            return moment(this.rangeStart).add(dayOfWeek - 1, 'day').format('YYYY-MM-DD')
         }
     },
 
     created () {
+        this.pagination.filter = {
+            sla_definition_id: this.definitionId
+        }
         this.updateEndpointParams()
-    }
+    },
 
 }
 </script>

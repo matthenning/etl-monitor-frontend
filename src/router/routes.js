@@ -22,9 +22,9 @@ let routes = [
     route(null, '/', 'home', 'Home', 'mdi-monitor-dashboard', true, () => import('../views/Home')),
     route(null, 'login', 'login', 'Login', 'mdi-help', false, () => import('../views/Login')),
     route(null, 'etl/dashboard', 'etl_dashboard', 'ETL Dashboard', 'mdi-chart-gantt', true, () => import('../views/etl/Dashboard')),
-    route(null, 'sla/dashboard/feed', 'sla_dashboard', 'SLA Dashboard', 'mdi-timetable', true, () => import('../views/sla/FeedDashboard')),
-    route(null, 'sla/dashboard/daily', 'sla_dashboard', 'SLA Dashboard', 'mdi-timetable', false, () => import('../views/sla/DailyDashboard')),
-    route(null, 'sla/dashboard/weekly', 'sla_dashboard', 'SLA Dashboard', 'mdi-timetable', false, () => import('../views/sla/WeeklyDashboard')),
+    route(null, 'sla/dashboard/feed', 'sla_dashboard', 'SLA Dashboard', 'mdi-timetable', false, () => import('../views/sla/FeedDashboard')),
+    route(null, 'sla/dashboard/daily', 'sla_dashboard', 'SLA Dashboard', 'mdi-timetable', true, () => import('../views/sla/DailyDashboard')),
+    route(null, 'sla/dashboard/weekly', 'sla_dashboard', 'SLA Dashboard', 'mdi-timetable', false, () => import('../views/sla/WeeklyDashboard'))
 ]
 
 Object.keys(models).forEach((k) => {
@@ -33,7 +33,7 @@ Object.keys(models).forEach((k) => {
         route(
             m,
             m.entity,
-            'index_' + m.entity,
+            m.package + '/' + 'index_' + m.entity,
             m.name,
             m.icon,
             m.menu,
@@ -44,7 +44,7 @@ Object.keys(models).forEach((k) => {
     routes.push(
         route(
             m,
-            m.entity + '/create',
+            m.package + '/' + m.entity + '/create',
             'create_' + m.entity,
             m.name,
             m.icon,
@@ -57,7 +57,7 @@ Object.keys(models).forEach((k) => {
     routes.push(
         route(
             m,
-            m.entity + '/:id',
+            m.package + '/' + m.entity + '/:id',
             'show_' + m.entity,
             null,
             m.icon,
@@ -70,7 +70,7 @@ Object.keys(models).forEach((k) => {
     routes.push(
         route(
             m,
-            m.entity + '/:id/edit',
+            m.package + '/' + m.entity + '/:id/edit',
             'edit_' + m.entity,
             null,
             m.icon,
@@ -83,7 +83,7 @@ Object.keys(models).forEach((k) => {
     routes.push(
         route(
             m,
-            m.entity + '/:id/delete',
+            m.package + '/' + m.entity + '/:id/delete',
             'delete_' + m.entity,
             null,
             m.icon,

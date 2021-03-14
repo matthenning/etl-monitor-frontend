@@ -11,6 +11,7 @@ export default class DeliverableSlaModel extends SlaModel {
     static fields () {
         return {
             ...super.fields(),
+            achieved_at: this.attr(null),
 
             definition: this.belongsTo(DeliverableSlaDefinitionModel, 'sla_definition_id'),
             statistic: this.hasOne(DeliverableSlaStatisticModel, 'sla_id')

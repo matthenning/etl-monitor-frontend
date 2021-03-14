@@ -68,7 +68,9 @@ text.text--secondary {
 }
 
 
-
+/*
+ * Custom button groups without toggle
+ */
 .v-btn-group {
   border-radius: 4px;
   display: inline-flex;

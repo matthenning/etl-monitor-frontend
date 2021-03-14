@@ -5,7 +5,7 @@
         </v-tooltip>
 
         <svg version="1.2" :height="dimensions.height" :width="dimensions.width">
-            <svg v-for="(day, index) in history" :key="day.sla_id" :width="colWidth" :x="positionBarX(index)" :height="heightMaxBar" y="5"
+            <svg v-for="(day, index) in historyDesc" :key="day.sla_id" :width="colWidth" :x="positionBarX(index)" :height="heightMaxBar" y="5"
                  @mouseenter="mouseenter(day)" @mouseleave="mouseleave(day)">
                 <rect :x="barOffsetX" :y="positionBarY(day)" :height="heightBar(day)" :width="dimensions.bar_width" :id="'sla-bar-' + day.sla_id"
                       :fill="fillBar(day)" :stroke="strokeBar(day)" />
@@ -81,7 +81,7 @@ export default {
             default: () => {
                 return {
                     height: 76,
-                    width: 270,
+                    width: 247,
                     bar_width: 10,
                     bar_l_padding: 4,
                     bar_r_padding: 4,
@@ -125,6 +125,11 @@ export default {
         },
         barOffsetX () {
             return this.dimensions.bar_l_padding
+        },
+        historyDesc () {
+            return this.history.sort((a, b) => {
+                return moment(a.start).isAfter(moment(b.start)) ? -1 : 1
+            })
         }
     },
 
@@ -139,8 +144,8 @@ export default {
             return this.heightMaxBar - this.heightMaxBar / 100 * hPct
         },
         positionBarX (index) {
-            if (index === 0) return 0
-            return index * (this.colWidth + this.dimensions.bar_l_margin)
+            index++
+            return this.dimensions.width - index * (this.colWidth + this.dimensions.bar_l_margin)
         },
         positionBarY (day) {
             return this.heightMaxBar - this.heightBar(day)

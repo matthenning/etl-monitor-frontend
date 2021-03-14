@@ -6,13 +6,13 @@
 
         <svg version="1.2" :height="dimensions.height" :width="dimensions.width">
 
-            <svg v-for="(day, index) in history" :key="id(index)" :width="widthBox(day)" :x="positionBoxX(index)" :height="dimensions.box_size + 4" y="0"
-                 @mouseenter="mouseenter(index, day)" @mouseleave="mouseleave(index, day)">
+            <svg v-for="(exec, index) in history" :key="id(index)" :width="widthBox(exec)" :x="positionBoxX(index)" :height="dimensions.box_size + 4" y="0"
+                 @mouseenter="mouseenter(index, exec)" @mouseleave="mouseleave(index, exec)">
 
-                <rect v-if="isStartOfWeek(day)" x="4" y="0" width="2" :height="dimensions.box_size + 4" :fill="color.default.stroke"></rect>
+                <rect v-if="isStartOfWeek(exec)" x="4" y="0" width="2" :height="dimensions.box_size + 4" :fill="color.default.stroke"></rect>
 
-                <rect :x="boxOffsetX(day)" :y="2" :height="dimensions.box_size" :width="dimensions.box_size" :id="id(index)"
-                      :fill="fillBox(day)" :stroke="strokeBox(day)" />
+                <rect :x="boxOffsetX(exec)" :y="2" :height="dimensions.box_size" :width="dimensions.box_size" :id="id(index)"
+                      :fill="fillBox(exec)" :stroke="strokeBox(exec)" />
 
             </svg>
         </svg>
@@ -52,7 +52,7 @@ export default {
 
     methods: {
         id (index) {
-            return 'sla-history-rect-' + this.definition.id + '--' + index
+            return 'etl-history-rect-' + this.definition.id + '--' + index
         },
         getMondays (index) {
             return this.history.slice(0, index).filter((d) => moment(d.day).weekday() === 1).length
@@ -78,23 +78,21 @@ export default {
         },
         
         fillBox (day) {
-            if (this.isInErrorMargin(day)) return this.color.warning.fill
-            if (day.status === 'achieved') return this.color.success.fill
-            if (day.status === 'failed') return this.color.critical.fill
+            if (day.status === 'ok') return this.color.success.fill
+            if (day.status === 'error') return this.color.critical.fill
             return this.color.default.fill
         },
         strokeBox (day) {
-            if (this.isInErrorMargin(day)) return this.color.warning.stroke
-            if (day.status === 'achieved') return this.color.success.stroke
-            if (day.status === 'failed') return this.color.critical.stroke
+            if (day.status === 'ok') return this.color.success.stroke
+            if (day.status === 'error') return this.color.critical.stroke
             return this.color.default.stroke
         },
 
-        mouseenter (index, day) {
+        mouseenter (index, exec) {
             let r = document.getElementById(this.id(index)).getBoundingClientRect()
             this.tooltipX = r.left + (r.right - r.left) / 2
             this.tooltipY = r.bottom
-            this.mouseoverday = day
+            this.mouseoverday = exec
             this.mouseoverbox = true
         },
         mouseleave () {

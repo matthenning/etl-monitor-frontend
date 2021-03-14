@@ -10,7 +10,19 @@
                 <path :d="pathInner" fill="transparent" :stroke="strokeTotal" stroke-width="1" stroke-linecap="butt" />
                 <path :d="pathOuter" fill="transparent" :stroke="strokeTotal" stroke-width="1" stroke-linecap="butt" />
 
-                <text x="calc(50% + 5px)" y="calc(50% + 5px)" dominant-baseline="middle" text-anchor="middle" class="caption text--secondary">{{ textAchieved }}%</text>
+                <svg v-if="textAchievedAt" height="100%" width="100%">
+                    <text x="50%" y="40%" dominant-baseline="middle" text-anchor="middle" class="caption text--secondary">
+                        {{ textAchieved }}%
+                    </text>
+                    <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" class="caption text--secondary">
+                        {{ textAchievedAt }}
+                    </text>
+                </svg>
+                <svg v-else height="100%" width="100%">
+                    <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" class="caption text--secondary">
+                        {{ textAchieved }}%
+                    </text>
+                </svg>
             </svg>
 
             <diagonal-hatch></diagonal-hatch>
@@ -134,7 +146,20 @@ export default {
         },
         textAchieved () {
             return this.sla.achieved_progress_percent ?? 0
-        }
+        },
+        textAchievedAt () {
+            if (!this.sla.achieved_at) return null
+            let ach = moment(this.sla.achieved_at),
+                start = moment(this.sla.start)
+            if (ach.diff(start, 'hour') > 24) {
+                let dd = ach.diff(start, 'day')
+                let dh = ach.diff(start, 'hour') % 24
+
+                return dd + 'd ' + dh + 'h'
+            }
+
+            return ach.format('HH:mm')
+        },
     },
 
     methods: {

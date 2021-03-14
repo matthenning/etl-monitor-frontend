@@ -35,7 +35,6 @@ export default class SlaModel extends Model {
             timerange_type: this.attr(null),
             range_start: this.attr(null),
             range_end: this.attr(null),
-            achieved_at: this.attr(null),
             error_margin_minutes: this.attr(null),
             is_open: this.attr(null),
             status: this.attr(null),

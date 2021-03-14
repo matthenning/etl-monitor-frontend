@@ -30,7 +30,7 @@
             <template v-slot:header.definition.name="{ item }">
                 <span class="body-2">Name</span>
             </template>
-            <template v-slot:header.definition.status.name="{ item }">
+            <template v-slot:header.definition.lifecycle.name="{ item }">
                 <span class="body-2">Lifecycle</span>
             </template>
             <template v-slot:header.target="{ item }">
@@ -59,12 +59,12 @@
             </template>
             <template v-slot:item.definition.name="{ item }">
                 <v-icon class="mr-2">{{ item.definition._icon }}</v-icon>
-                <router-link to="">
+                <router-link :to="item.definition._show">
                     <a class="font-weight-bold">{{ item.definition.name }}</a>
                 </router-link>
             </template>
-            <template v-slot:item.definition.status.name="{ item }">
-                <span>{{ item.definition.status.name }}</span>
+            <template v-slot:item.definition.lifecycle.name="{ item }">
+                <span>{{ item.definition.lifecycle.name }}</span>
             </template>
             <template v-slot:item.target="{ item }">
                 <achievement-pie :sla="getAchievementPieObject(item)"></achievement-pie>
@@ -142,10 +142,10 @@ export default {
             headers: [
                 {
                     text: 'Status',
-                    align: 'start',
-                    sortable: false,
+                    align: 'center',
+                    sortable: true,
                     value: 'status',
-                    width: 50
+                    width: 100
                 },
                 {
                     text: 'Name',
@@ -154,10 +154,10 @@ export default {
                     value: 'definition.name'
                 },
                 {
-                    text: 'Status',
+                    text: 'Lifecycle',
                     align: 'start',
                     sortable: true,
-                    value: 'definition.status.name'
+                    value: 'definition.lifecycle.name'
                 },
                 {
                     text: 'Target',
@@ -198,7 +198,7 @@ export default {
             let results = []
             this.models.forEach((m) => {
                 m.query().whereIdIn(this.pagination.current_page_item_ids)
-                    .with(['definition', 'definition.status', 'statistic'])
+                    .with(['definition', 'definition.lifecycle', 'statistic'])
                     .get().forEach((o) => {
                     results.push(o)
                 })
@@ -255,8 +255,8 @@ export default {
                 start: moment(sla.range_start),
                 target: moment(sla.range_end),
                 average: sla.statistic ? {
-                    lower: sla.statistic.average_duration_minutes_lower,
-                    upper: sla.statistic.average_duration_minutes_upper
+                    lower: sla.statistic.average_lower,
+                    upper: sla.statistic.average_upper
                 } : null,
                 achieved: sla.achieved_at ? moment(sla.achieved_at) : null,
                 error_margin_minutes: sla.error_margin_minutes

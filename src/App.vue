@@ -32,6 +32,19 @@
                     </v-list-item>
                 </template>
             </v-list>
+
+            <v-divider></v-divider>
+
+            <v-list nav dense>
+                <v-list-item link :to="$link('sla', 'admin')">
+                    <v-list-item-icon>
+                        <v-icon>mdi-table-cog</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-title>
+                        SLA Administration
+                    </v-list-item-title>
+                </v-list-item>
+            </v-list>
         </v-navigation-drawer>
 
 
@@ -204,6 +217,12 @@
         },
 
         created () {
+            axios.interceptors.response.use((response) => response, error => {
+                if (error.response.status === 401 && router.currentRoute.name !== 'login') {
+                    router.push('/web/login')
+                }
+            })
+
             this.checkAuth()
             this.echo = window.echo
 

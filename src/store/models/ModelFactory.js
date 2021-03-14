@@ -23,10 +23,14 @@ export default class ModelFactory {
         let url = ''
         Object.keys(filter).forEach((key) => {
             url += '&filter[' + key + ']='
-            if (filter[key].comp) url += filter[key].comp + ':'
-            else if (!filter[key].exact) url += 'like:*'
-            url += filter[key].value
-            if (!filter[key].exact) url += '*'
+            if (typeof filter[key] === 'object') {
+                if (filter[key].comp) url += filter[key].comp + ':'
+                else if (!filter[key].exact) url += 'like:*'
+                url += filter[key].value
+                if (!filter[key].exact) url += '*'
+            } else {
+                url += filter[key]
+            }
         })
 
         return url

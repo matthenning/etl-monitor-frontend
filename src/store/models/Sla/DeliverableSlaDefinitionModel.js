@@ -1,5 +1,3 @@
-import Model from "../Model"
-import SlaModel from "./SlaModel";
 import DeliverableSlaModel from "./DeliverableSlaModel";
 import SlaDefinitionModel from "./SlaDefinitionModel";
 

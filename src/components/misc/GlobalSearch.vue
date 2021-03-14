@@ -17,7 +17,9 @@
         :menu-props="{maxHeight: 500}">
         <template v-slot:item="data">
             <template>
-                <sla-definition-search-list-item v-if="data.item.group === 'sla_definitions'" :definition="data.item"></sla-definition-search-list-item>
+                <sla-definition-search-list-item v-if="data.item.group.endsWith('_sla_definitions')" :result="data.item"></sla-definition-search-list-item>
+                <etl-definition-search-list-item v-else-if="data.item.group.endsWith('_etl_definitions')" :result="data.item"></etl-definition-search-list-item>
+                <div v-else><span class="subtitle-2">{{ data.item.name }}</span></div>
             </template>
         </template>
     </v-autocomplete>
@@ -29,9 +31,10 @@ import GlobalSearch from "@/util/custom_fetchers/GlobalSearch";
 import models from "@/store/models";
 import SlaDefinitionSearchListItem from "@/components/lists/SlaDefinitionSearchListItem";
 import entities from "@/store/entities";
+import EtlDefinitionSearchListItem from "@/components/lists/EtlDefinitionSearchListItem";
 
 export default {
-    components: {SlaDefinitionSearchListItem},
+    components: {EtlDefinitionSearchListItem, SlaDefinitionSearchListItem},
 
     data () {
         return {
@@ -51,8 +54,8 @@ export default {
     methods: {
         fillResults (results) {
             this.items = []
-            Object.keys(results.data).forEach((k) => {
-                this.items.push({ header: entities[k] })
+            Object.keys(results.data).forEach((k, i) => {
+                this.items.push({ header: entities.hasOwnProperty(k) ? entities[k] : k })
 
                 results.data[k].forEach((r) => {
                     this.items.push({
@@ -60,13 +63,14 @@ export default {
                         name: r.name,
                         info: r.info,
                         model: r.model,
+                        entity: r.entity,
                         url: models[r.model + 'Model'].view('show', r.id),
                         icon: r.icon,
                         group: k
                     })
                 })
 
-                this.items.push({ divider: true })
+                if (Object.keys(results.data).length - 1 < i) this.items.push({ divider: true })
             })
 
             this.loading = false
