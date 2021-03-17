@@ -1,27 +1,32 @@
 <template>
 
     <v-container fluid>
-        Beautiful chart maaan
+        <automic-etl-execution-history :executions="objects"></automic-etl-execution-history>
     </v-container>
 
 </template>
 
 <script>
-import moment from "moment";
 import PaginatedComponent from "@/components/PaginatedComponent";
 import AutomicEtlExecutionModel from "@/store/models/Etl/AutomicEtlExecutionModel";
+import moment from "moment";
+import AutomicEtlExecutionHistory from "@/svg/AutomicEtlExecutionHistory";
 
 export default {
-
+    components: {AutomicEtlExecutionHistory},
     extends: PaginatedComponent,
 
     props: {
-        definitionId: Number
+        etlId: String
     },
 
     data () {
         return {
+            pagination: {
+                paginate: false
+            },
             model: AutomicEtlExecutionModel,
+            relations: [],
             endpoint: 'inRange',
             endpoint_params: [],
         }
@@ -29,10 +34,10 @@ export default {
 
     computed: {
         rangeStart () {
-            return moment(this.$parent.$refs.selector.selectedDates[0]).startOf('isoWeek').format()
+            return moment(this.$parent.$refs.selector.selectedDates[0]).startOf('day').format()
         },
         rangeEnd () {
-            return moment(this.$parent.$refs.selector.selectedDates[1]).endOf('isoWeek').format()
+            return moment(this.$parent.$refs.selector.selectedDates[1]).endOf('day').format()
         }
     },
 
@@ -51,18 +56,12 @@ export default {
                 this.rangeStart,
                 this.rangeEnd
             ]
-        },
-        getTime (ts) {
-            return moment(ts).format('HH:mm')
-        },
-        diffInDays (ts) {
-            return moment(ts).diff(moment(), 'day')
         }
     },
 
     created () {
         this.pagination.filter = {
-            etl_definition_id: this.definitionId
+            etl_id: this.etlId
         }
         this.updateEndpointParams()
     },

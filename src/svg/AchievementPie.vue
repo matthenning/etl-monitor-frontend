@@ -86,7 +86,7 @@ export default {
         },
         pathAchieved () {
             let to
-            to = this.sla.achieved_progress_percent > this.sla.target ? this.sla.target : this.sla.achieved_progress_percent
+            to = this.sla.achieved_progress_percent > this.sla.target_percent ? this.sla.target_percent : this.sla.achieved_progress_percent
 
             let p = 'M ' + this.pathStartX + ',' + this.pathStartY + ' '
             p += 'A ' + this.radius + ' ' + this.radius + ' 0 '
@@ -97,8 +97,8 @@ export default {
         },
         pathTarget () {
             let fr, to
-            fr = this.sla.achieved_progress_percent > this.sla.target ? this.sla.target : this.sla.achieved_progress_percent
-            to = this.sla.achieved_progress_percent < this.sla.target ? this.sla.target : this.sla.achieved_progress_percent
+            fr = this.sla.achieved_progress_percent > this.sla.target_percent ? this.sla.target_percent : this.sla.achieved_progress_percent
+            to = this.sla.achieved_progress_percent < this.sla.target_percent ? this.sla.target_percent : this.sla.achieved_progress_percent
 
             let p = 'M ' + this.endpointX(fr) + ',' + this.endpointY(fr) + ' '
             p += 'A ' + this.radius + ' ' + this.radius + ' 0 '
@@ -109,7 +109,7 @@ export default {
         },
         pathOuter () {
             let to
-            to = this.sla.achieved_progress_percent < this.sla.target ? this.sla.target : this.sla.achieved_progress_percent
+            to = this.sla.achieved_progress_percent < this.sla.target_percent ? this.sla.target_percent : this.sla.achieved_progress_percent
 
             let p = 'M ' + this.pathStartXOuter + ',' + this.pathStartY + ' '
             p += 'A ' + this.radiusOuter + ' ' + this.radiusOuter + ' 0 '
@@ -120,7 +120,7 @@ export default {
         },
         pathInner () {
             let to
-            to = this.sla.achieved_progress_percent < this.sla.target ? this.sla.target : this.sla.achieved_progress_percent
+            to = this.sla.achieved_progress_percent < this.sla.target_percent ? this.sla.target_percent : this.sla.achieved_progress_percent
 
             let p = 'M ' + this.pathStartXInner + ',' + this.pathStartY + ' '
             p += 'A ' + this.radiusInner + ' ' + this.radiusInner + ' 0 '

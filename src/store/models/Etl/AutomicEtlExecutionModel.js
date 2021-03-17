@@ -1,4 +1,5 @@
 import EtlExecutionModel from "@/store/models/Etl/EtlExecutionModel";
+import AutomicEtlDefinitionModel from "@/store/models/Etl/AutomicEtlDefinitionModel";
 
 export default class AutomicEtlExecutionModel extends EtlExecutionModel {
     static name = 'AutomicEtlExecution'
@@ -10,7 +11,7 @@ export default class AutomicEtlExecutionModel extends EtlExecutionModel {
         return {
             ...super.fields(),
 
-            definition: this.hasMany(AutomicEtlExecutionModel, 'etl_id', 'etl_id')
+            definition: this.belongsTo(AutomicEtlDefinitionModel, 'etl_id', 'etl_id')
         }
     }
 }

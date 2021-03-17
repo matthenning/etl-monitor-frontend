@@ -45,7 +45,15 @@ export default class ModelFactory {
     }
 
     static getOrderUrlArtifact (sort_by, sort_direction) {
-        return '&order[' + sort_by + ']=' + sort_direction
+        if (!Array.isArray(sort_by)) sort_by = [ sort_by ]
+        if (!Array.isArray(sort_direction)) sort_direction = [ sort_direction ]
+
+        let str = ''
+        for (let i = 0; i < sort_by.length; i++) {
+            str += '&order[' + sort_by[i] + ']=' + (sort_direction[i] ? sort_direction[i] : 'asc')
+        }
+
+        return str
     }
 
     static getDebugUrlArtifact () {
@@ -53,24 +61,29 @@ export default class ModelFactory {
         return ''
     }
 
-    static getFetchUrl (model, id) {
-        return model.endpoint('fetch') + '/' + id + '?relations=separate'
+    static getFetchUrl (model, id, relations = [], endpoint = 'fetch', endpoint_params = []) {
+        endpoint_params.unshift(id)
+        return model.endpoint(endpoint, endpoint_params) + '?relations=separate'
             + this.getDebugUrlArtifact()
-            + this.getRelationUrlArtifact(model)
+            + this.getRelationUrlArtifact(model, relations)
     }
 
-    static getFetchMultipleUrl (model, ids) {
-        return model.endpoint('fetch') + '?relations=separate'
+    static getFetchMultipleUrl (model, ids, relations = [], endpoint = 'fetch', endpoint_params = []) {
+        return model.endpoint(endpoint, endpoint_params) + '?relations=separate'
             + this.getWhereInUrlArtifact('id', ids)
             + this.getDebugUrlArtifact()
-            + this.getRelationUrlArtifact(model)
+            + this.getRelationUrlArtifact(model, relations)
     }
 
     static getPaginatedFetchUrl (model, pagination, relations = null, endpoint = 'fetch', endpoint_params = []) {
         let url = model.endpoint(endpoint, endpoint_params) + '?relations=separate'
             + this.getDebugUrlArtifact()
-            + '&page=' + pagination.current_page
-            + '&per_page=' + pagination.per_page
+
+        if (pagination.paginate) {
+            url += '&page=' + pagination.current_page + '&per_page=' + pagination.per_page
+        } else {
+            url += '&all'
+        }
 
         if (pagination.filter) url += this.getFilterUrlArtifact(pagination.filter)
         if (pagination.sort_by) url += this.getOrderUrlArtifact(pagination.sort_by, pagination.sort_direction)
@@ -79,14 +92,14 @@ export default class ModelFactory {
         return url
     }
 
-    static fetchIfNecessary (model, id, callback = null, error_callback = null) {
+    static fetchIfNecessary (model, id, callback = null, error_callback = null, endpoint = 'fetch', endpoint_params = []) {
         if (model.find(id) == null) {
             this.fetch(model, id, callback, error_callback)
         }
     }
 
-    static fetch (model, id, callback = null, error_callback = null) {
-        axios.get(this.getFetchUrl(model, id), {
+    static fetch (model, id, callback = null, error_callback = null, relations = [], endpoint = 'fetch', endpoint_params = []) {
+        axios.get(this.getFetchUrl(model, id, relations, endpoint, endpoint_params), {
             transformResponse: [data => data]
         }).then((response) => {
             this.ingestApiResponse(JSONBigInt.parse(response.data), model, callback)
@@ -96,8 +109,8 @@ export default class ModelFactory {
         })
     }
 
-    static fetchMultiple (model, ids, callback = null, error_callback = null) {
-        axios.get(this.getFetchMultipleUrl(model, ids), {
+    static fetchMultiple (model, ids, callback = null, error_callback = null, relations = [], endpoint = 'fetch', endpoint_params = []) {
+        axios.get(this.getFetchMultipleUrl(model, ids, relations, endpoint, endpoint_params), {
             transformResponse: [data => data]
         }).then((response) => {
             this.ingestApiResponse(JSONBigInt.parse(response.data), model, callback)
@@ -107,7 +120,7 @@ export default class ModelFactory {
         })
     }
 
-    static fetchWithPagination (model, pagination, callback = null, error_callback = null, relations = null, endpoint = 'fetch', endpoint_params = []) {
+    static fetchWithPagination (model, pagination, callback = null, error_callback = null, relations = [], endpoint = 'fetch', endpoint_params = []) {
         axios.get(this.getPaginatedFetchUrl(model, pagination, relations, endpoint, endpoint_params), {
                 transformResponse: [data => data]
             }).then((response) => {

@@ -20,6 +20,7 @@
                 loading: false,
                 error: false,
                 model: null,
+                store_model: null,
                 relations: null,
                 recursionDepth: 3,
                 ready_to_load: false
@@ -64,6 +65,8 @@
         },
 
         created () {
+            if (!this.store_model) this.store_model = this.model
+            if (!this.store_relations) this.store_relations = this.relations
             this.component_id = 'c-' + Math.random().toString(36).substring(7);
         },
 

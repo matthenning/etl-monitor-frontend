@@ -6,12 +6,11 @@
 
 <script>
 import ShowView from "@/views/show/ShowView";
-import DeliverableSlaDefinitionDetails from "@/components/details/DeliverableSlaDefinitionDetails";
 import AutomicEtlDefinitionDetails from "@/components/details/AutomicEtlDefinitionDetails";
 import AutomicEtlDefinitionModel from "@/store/models/Etl/AutomicEtlDefinitionModel";
 
 export default {
-    components: {AutomicEtlDefinitionDetails, DeliverableSlaDefinitionDetails},
+    components: {AutomicEtlDefinitionDetails},
     extends: ShowView,
 
     computed: {

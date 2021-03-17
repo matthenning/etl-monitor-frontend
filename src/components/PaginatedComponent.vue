@@ -17,6 +17,7 @@
         data () {
             return {
                 pagination: {
+                    paginate: true,
                     current_page: 1,
                     last_page: null,
                     per_page: 10,
@@ -45,15 +46,27 @@
         computed: {
             objects () {
                 if (!this.ready_to_load) return null
-                let query = this.model.query()
 
-                if (this.relations) {
-                    this.relations.forEach((r) => { query = query.with(r) })
-                } else {
-                    query = query.withAllRecursive(this.recursionDepth)
+                if (!Array.isArray(this.store_model)) {
+                    this.store_model = [ this.store_model ]
                 }
 
-                return query.whereIdIn(this.pagination.current_page_item_ids).get()
+                let objects = []
+                this.store_model.forEach((m) => {
+                    let query = m.query()
+
+                    if (this.store_relations) {
+                        this.store_relations.forEach((r) => { query = query.with(r) })
+                    } else {
+                        query = query.withAllRecursive(this.recursionDepth)
+                    }
+
+                    query.whereIdIn(this.pagination.current_page_item_ids).get().forEach((r) => {
+                        objects.push(r)
+                    })
+                })
+
+                return objects
             }
         },
 
@@ -126,7 +139,8 @@
             },
 
             receivedPaginatedItemsCallback(response, ids) {
-                this.updatePagination(response.meta.pagination, ids)
+                if (this.pagination.paginate) this.updatePagination(response.meta.pagination, ids)
+                else this.pagination.current_page_item_ids = ids
                 this.clearLoadingError()
                 this.callUpdateCallbacks()
                 this.initialDone()
@@ -149,7 +163,7 @@
                 })
             }
 
-            if (!this.noPaginationLoad) {
+            if (!this.noPaginationLoad && this.pagination.paginate) {
                 this.loadPagination()
             }
 

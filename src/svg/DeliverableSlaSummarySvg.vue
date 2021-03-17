@@ -72,7 +72,7 @@ export default {
             return this.sla.start.format('HH:mm')
         },
         textEnd () {
-            if (!this.slaEnd.diff(this.sla.start, 'hour') > 24) {
+            if (this.slaEnd.diff(this.sla.start, 'hour') > 24) {
                 let dd = this.slaEnd.diff(this.sla.start, 'day')
                 let dh = this.slaEnd.diff(this.sla.start, 'hour') % 24
 
@@ -88,7 +88,7 @@ export default {
         textTarget () {
             if (!this.sla.target) return
 
-            if (!this.sla.target.diff(this.sla.start, 'hour') > 24) {
+            if (this.sla.target.diff(this.sla.start, 'hour') > 24) {
                 let dd = this.sla.target.diff(this.sla.start, 'day')
                 let dh = this.sla.target.diff(this.sla.start, 'hour') % 24
 

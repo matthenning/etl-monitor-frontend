@@ -22,7 +22,7 @@
             </v-col>
         </v-row>
 
-        <weekly-dashboard></weekly-dashboard>
+        <weekly-sla-data-table></weekly-sla-data-table>
 
     </div>
 
@@ -30,13 +30,12 @@
 
 <script>
 import Dashboard from "@/views/sla/Dashboard";
-import WeeklyDashboard from "@/components/dashboards/sla/WeeklyDashboard";
-import DeliverableSlaDefinitionModel from "@/store/models/Sla/DeliverableSlaDefinitionModel";
+import WeeklySlaDataTable from "@/components/tables/sla/WeeklySlaDataTable";
 
 export default {
 
     components: {
-        WeeklyDashboard
+        WeeklySlaDataTable
     },
 
     extends: Dashboard

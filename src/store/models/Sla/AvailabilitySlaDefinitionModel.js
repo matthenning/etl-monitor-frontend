@@ -18,7 +18,7 @@ export default class AvailabilitySlaDefinitionModel extends SlaDefinitionModel {
             ...super.fields(),
             name: this.attr(null),
 
-            slas: this.hasMany(AvailabilitySlaModel, 'definition_id'),
+            slas: this.hasMany(AvailabilitySlaModel, 'sla_definition_id'),
         }
     }
 }

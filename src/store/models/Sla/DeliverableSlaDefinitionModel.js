@@ -18,7 +18,7 @@ export default class DeliverableSlaDefinitionModel extends SlaDefinitionModel {
             ...super.fields(),
             name: this.attr(null),
 
-            slas: this.hasMany(DeliverableSlaModel, 'definition_id'),
+            slas: this.hasMany(DeliverableSlaModel, 'sla_definition_id'),
         }
     }
 }

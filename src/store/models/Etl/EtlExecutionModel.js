@@ -35,7 +35,9 @@ export default class EtlExecutionModel extends Model {
             date_activation: this.attr(null),
             date_start: this.attr(null),
             date_end: this.attr(null),
-            date_end_pp: this.attr(null)
+            date_end_pp: this.attr(null),
+            status: this.attr(null),
+            status_text: this.attr(null)
         }
     }
 }

@@ -31,7 +31,7 @@
             </v-col>
         </v-row>
 
-        <automic-etl-definition-executions-chart v-if="object" :definition-id="object.id"></automic-etl-definition-executions-chart>
+        <automic-etl-definition-executions-chart v-if="object" :etl-id="object.etl_id"></automic-etl-definition-executions-chart>
 
     </div>
 
@@ -39,7 +39,7 @@
 
 <script>
 import SingleComponent from "@/components/SingleComponent";
-import SlaListSelector from "@/views/show/SlaListSelector";
+import SlaListSelector from "@/views/sla/selector/SlaListSelector";
 import AutomicEtlDefinitionModel from "@/store/models/Etl/AutomicEtlDefinitionModel";
 import AutomicEtlDefinitionExecutionsChart from "@/components/charts/AutomicEtlDefinitionExecutionsChart";
 import EtlExecutionListSelector from "@/views/show/EtlExecutionListSelector";

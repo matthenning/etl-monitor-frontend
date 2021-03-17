@@ -1,5 +1,5 @@
 <script>
-import DashboardViewSelector from "@/views/sla/DashboardViewSelector";
+import DashboardViewSelector from "@/views/sla/selector/DashboardViewSelector";
 export default {
 
     components: {

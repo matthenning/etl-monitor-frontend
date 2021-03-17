@@ -15,6 +15,17 @@ export default class SlaDefinitionModel extends Model {
         ]
     }
 
+    static apiConfig = {
+        actions: {
+            ...Model.apiConfig.actions,
+            inRange: {
+                method: 'get',
+                url: Model.baseUrl,
+                postfix: 'in_range'
+            }
+        }
+    }
+
     static fields () {
         return {
             ...super.fields(),
@@ -24,8 +35,6 @@ export default class SlaDefinitionModel extends Model {
             target_percent: this.attr(null),
 
             lifecycle: this.belongsTo(SlaDefinitionLifecycleModel, 'lifecycle_id'),
-            slas: this.hasMany(DeliverableSlaModel, 'definition_id'),
-
             statistic: this.hasOne(SlaDefinitionStatisticModel, 'sla_definition_id')
         }
     }

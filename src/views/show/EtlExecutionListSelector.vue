@@ -53,7 +53,7 @@ export default {
         return {
             datePickerActive: false,
             selectedDates: [
-                moment().subtract(4, 'week').format('YYYY-MM-DD'),
+                moment().subtract(1, 'week').format('YYYY-MM-DD'),
                 moment().format('YYYY-MM-DD')
             ]
         }

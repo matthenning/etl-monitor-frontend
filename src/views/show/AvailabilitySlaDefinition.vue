@@ -1,21 +1,28 @@
 <template>
 
-    <availability-sla-definition-details :id="id"></availability-sla-definition-details>
+    <div>
+
+        <availability-sla-definition-details :id="id"></availability-sla-definition-details>
+
+    </div>
 
 </template>
 
 <script>
 import ShowView from "@/views/show/ShowView";
-import AvailabilitySlaDefinitionDetails from "@/components/details/AvailabilitySlaDefinitionDetails";
 import AvailabilitySlaDefinitionModel from "@/store/models/Sla/AvailabilitySlaDefinitionModel";
+import AvailabilitySlaDefinitionDetails from "@/components/details/AvailabilitySlaDefinitionDetails";
 
 export default {
-    components: {AvailabilitySlaDefinitionDetails},
+    components: {
+        AvailabilitySlaDefinitionDetails
+    },
+
     extends: ShowView,
 
     computed: {
         object () {
-            return AvailabilitySlaDefinitionModel.getQueryWithAllRelations().find(this.id)
+            return AvailabilitySlaDefinitionModel.find(this.id)
         },
     }
 

@@ -6,6 +6,13 @@
 
         extends: Component,
 
+        data () {
+            return {
+                endpoint: 'fetch',
+                endpoint_params: []
+            }
+        },
+
         computed: {
             identity () {
                 return this.identityOf(this.model.name, this.id)
@@ -15,7 +22,7 @@
                     return this.linkedObject
 
                 if(this.ready_to_load)
-                    return this.model.query().withAllRecursive(this.recursionDepth).find(this.id)
+                    return this.store_model.query().withAllRecursive(this.recursionDepth).find(this.id)
 
                 return null
             }
@@ -32,10 +39,10 @@
                 return this.identity === this.identityOf(model, id)
             },
             loadPage () {
-                ModelFactory.fetch(this.model, this.id)
+                ModelFactory.fetch(this.model, this.id,null, null, this.relations, this.endpoint, this.endpoint_params)
             },
             refresh () {
-                ModelFactory.refresh(this.model, this.id, this.model.getRelationNames())
+                ModelFactory.refresh(this.model, this.id, this.relations)
             },
         },
 
@@ -88,6 +95,8 @@
                     this.initialDone()
                 }
             })
+
+            this.$parent.$on('ComponentRefresh', this.loadPage)
         },
 
     }

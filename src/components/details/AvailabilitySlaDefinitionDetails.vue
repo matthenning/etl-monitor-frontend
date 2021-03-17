@@ -39,8 +39,8 @@
 
 <script>
 import SingleComponent from "@/components/SingleComponent";
-import SlaListSelector from "@/views/show/SlaListSelector";
-import AvailabilitySlaDefinitionSlaDataTable from "@/components/tables/AvailabilitySlaDefinitionSlaDataTable";
+import SlaListSelector from "@/views/sla/selector/SlaListSelector";
+import AvailabilitySlaDefinitionSlaDataTable from "@/components/tables/sla/AvailabilitySlaDefinitionSlaDataTable";
 import AvailabilitySlaDefinitionModel from "@/store/models/Sla/AvailabilitySlaDefinitionModel";
 
 export default {
@@ -49,6 +49,7 @@ export default {
 
     data () {
         return {
+            relations: [],
             model: AvailabilitySlaDefinitionModel
         }
     }

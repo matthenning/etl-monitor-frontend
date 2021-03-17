@@ -22,7 +22,7 @@
             </v-col>
         </v-row>
 
-        <daily-dashboard></daily-dashboard>
+        <daily-sla-data-table></daily-sla-data-table>
 
     </div>
 
@@ -30,12 +30,12 @@
 
 <script>
 import Dashboard from "@/views/sla/Dashboard";
-import DailyDashboard from "@/components/dashboards/sla/DailyDashboard";
+import DailySlaDataTable from "@/components/tables/sla/DailySlaDataTable";
 
 export default {
 
     components: {
-        DailyDashboard
+        DailySlaDataTable
     },
 
     extends: Dashboard
