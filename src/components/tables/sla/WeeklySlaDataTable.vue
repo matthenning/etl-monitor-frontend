@@ -51,7 +51,7 @@
 
             <template v-slot:item.definition.name="{ item }">
                 <v-icon class="mr-2">{{ item.definition._icon }}</v-icon>
-                <router-link to="">
+                <router-link :to="item.definition._show">
                     <a class="font-weight-bold">{{ item.definition.name }}</a>
                 </router-link>
             </template>

@@ -49,7 +49,7 @@
 
 
         <v-app-bar app color="primary">
-            <span class="title ml-3 mr-5">DWH Monitor</span>
+            <span class="title ml-3 mr-5">DWH Control</span>
 
             <v-spacer/>
 
@@ -133,6 +133,11 @@
                     </v-card-actions>
                 </v-card>
             </v-dialog>
+            <v-row>
+                <v-col>
+                    <breadcrumbs></breadcrumbs>
+                </v-col>
+            </v-row>
             <v-container fluid>
                 <v-row>
                     <v-col offset-xl="2" offset-lg="0" xl="8" lg="12">
@@ -192,7 +197,7 @@
 
         methods: {
             debug () {
-                axios.get('/api/v1/sla/_debug')
+                axios.get('/api/v1/etl/automic_etl_executions?relations=separate&all&filter[_id]=in:500-6216898,500-4170235&XDEBUG_SESSION_START=PHPSTORM')
             },
             toggleNightMode() {
                 this.$vuetify.theme.dark = !this.$vuetify.theme.dark

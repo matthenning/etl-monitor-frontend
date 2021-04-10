@@ -13,6 +13,10 @@ export default class EtlDefinitionModel extends Model {
         ]
     }
 
+    static route = {
+        title: 'ETL'
+    }
+
     static childModelNames = [ 'AutomicEtlDefinitionModel' ]
 
     static fields () {

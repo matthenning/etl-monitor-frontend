@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-tooltip v-model="mouseoverbar" bottom :position-x="tooltipX" :position-y="tooltipY">
-            <span v-if="mouseoverday">{{ mouseoverday.target.format('YYYY-MM-DD') }}</span>
+            <span v-if="mouseoverday">{{ mouseoverday.end.format('YYYY-MM-DD') }}</span>
         </v-tooltip>
 
         <svg version="1.2" :height="dimensions.height" :width="dimensions.width">
@@ -107,7 +107,14 @@ export default {
         slaLongest () {
             let dates = []
             this.history.forEach((h) => {
-                dates.push([h.start, h.target, h.achieved_at])
+                let h_dates = []
+                h_dates.push(h.start, h.end)
+
+                if (h.achieved_at) {
+                    h_dates.push(h.achieved_at)
+                }
+
+                dates.push(h_dates)
             })
 
             dates.forEach(function (d) {
@@ -136,11 +143,11 @@ export default {
     methods: {
         isInErrorMargin (day) {
             return day.achieved_at &&
-                day.achieved_at.isAfter(day.target) &&
-                moment(day.achieved_at).subtract(day.error_margin_minutes, 'minute').isBefore(day.target)
+                day.achieved_at.isAfter(day.end) &&
+                moment(day.achieved_at).subtract(day.error_margin_minutes, 'minute').isBefore(day.end)
         },
         targetMarkerPositionY (day) {
-            let hPct = day.target.diff(day.start, 'minute') / this.slaLongest * 100
+            let hPct = day.end.diff(day.start, 'minute') / this.slaLongest * 100
             return this.heightMaxBar - this.heightMaxBar / 100 * hPct
         },
         positionBarX (index) {
@@ -160,16 +167,20 @@ export default {
             if (day.status === 'achieved') {
                 hPct = day.achieved_at.diff(day.start, 'minute') / this.slaLongest * 100
             } else {
-                hPct = day.target.diff(day.start, 'minute') / this.slaLongest * 100
+                hPct = day.end.diff(day.start, 'minute') / this.slaLongest * 100
             }
             return this.heightMaxBar / 100 * hPct
         },
         heightTargetBar (day) {
             let hPct;
             if (day.status === 'achieved') {
-                hPct = day.achieved_at.diff(day.target, 'minute') / this.slaLongest * 100
+                hPct = day.achieved_at.diff(day.end, 'minute') / this.slaLongest * 100
             } else {
-                hPct = day.achieved_at.diff(day.target, 'minute') / this.slaLongest * 100
+                if (day.achieved_at) {
+                    hPct = day.achieved_at.diff(day.end, 'minute') / this.slaLongest * 100
+                } else {
+                    hPct = 100
+                }
             }
             return Math.abs(this.heightMaxBar / 100 * hPct)
         },

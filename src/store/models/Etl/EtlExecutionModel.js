@@ -3,9 +3,10 @@ import AutomicEtlExecutionModel from "@/store/models/Etl/AutomicEtlExecutionMode
 
 export default class EtlExecutionModel extends Model {
     static name = 'EtlExecution'
-    static entity = 'etl_excutions'
+    static entity = 'etl_executions'
     static package = 'etl'
     static menu = false
+    static id_field = '_id'
 
     static apiConfig = {
         actions: {
@@ -22,6 +23,10 @@ export default class EtlExecutionModel extends Model {
         return [
             'definition'
         ]
+    }
+
+    static route = {
+        title: 'ETL'
     }
 
     static childModelNames = [ 'AutomicEtlExecutionModel' ]

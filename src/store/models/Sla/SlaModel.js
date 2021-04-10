@@ -1,5 +1,5 @@
 import Model from "../Model"
-import SlaStatisticModel from "@/store/models/Sla/SlaStatisticModel";
+import SlaAchievementConditionModel from "@/store/models/Sla/SlaAchievementConditionModel";
 
 export default class SlaModel extends Model {
     static name = 'Sla'
@@ -9,7 +9,7 @@ export default class SlaModel extends Model {
 
     static getRelationNames () {
         return [
-            'definition', 'progress', 'statistic'
+            'definition', 'progress', 'statistic', 'achievement_conditions'
         ]
     }
 
@@ -44,7 +44,10 @@ export default class SlaModel extends Model {
             progress_last_intime_id: this.attr(null),
             progress_first_intime_achieved_id: this.attr(null),
             progress_last_late_id: this.attr(null),
-            progress_first_late_achieved_id: this.attr(null)
+            progress_first_late_achieved_id: this.attr(null),
+            rules: this.attr(null),
+
+            achievement_conditions: this.hasMany(SlaAchievementConditionModel, 'sla_id')
         }
     }
 }

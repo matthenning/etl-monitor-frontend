@@ -13,6 +13,10 @@ export default class DeliverableSlaDefinitionModel extends SlaDefinitionModel {
         ]
     }
 
+    static route = {
+        title: 'SLA'
+    }
+
     static fields () {
         return {
             ...super.fields(),

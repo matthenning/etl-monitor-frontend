@@ -24,7 +24,7 @@
                 if (!this.$route || !this.$route.meta || !this.$route.meta.breadcrumbs) return []
 
                 let items = [{
-                    text: 'SlaFrontend',
+                    text: 'DWH Control',
                     disabled: true
                 }]
 

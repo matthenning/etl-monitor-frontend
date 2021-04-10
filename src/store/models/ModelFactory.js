@@ -37,9 +37,9 @@ export default class ModelFactory {
     }
 
     static getWhereInUrlArtifact (field, ids) {
-        let filter = '';
+        let filter = '&all&filter[' + field + ']=in:';
         if (!Array.isArray(ids)) ids = [ids]
-        ids.forEach((id) => filter += '&filter[' + field + ']=' + id)
+        filter += ids.join(',')
 
         return filter
     }
@@ -62,15 +62,16 @@ export default class ModelFactory {
     }
 
     static getFetchUrl (model, id, relations = [], endpoint = 'fetch', endpoint_params = []) {
-        endpoint_params.unshift(id)
-        return model.endpoint(endpoint, endpoint_params) + '?relations=separate'
+        let epp = endpoint_params.slice(0)
+        epp.unshift(id)
+        return model.endpoint(endpoint, epp) + '?relations=separate'
             + this.getDebugUrlArtifact()
             + this.getRelationUrlArtifact(model, relations)
     }
 
     static getFetchMultipleUrl (model, ids, relations = [], endpoint = 'fetch', endpoint_params = []) {
         return model.endpoint(endpoint, endpoint_params) + '?relations=separate'
-            + this.getWhereInUrlArtifact('id', ids)
+            + this.getWhereInUrlArtifact(model.id_field, ids)
             + this.getDebugUrlArtifact()
             + this.getRelationUrlArtifact(model, relations)
     }

@@ -10,6 +10,10 @@ export default class AvailabilitySlaModel extends SlaModel {
     static package = 'sla'
     static menu = false
 
+    static route = {
+        title: 'SLA'
+    }
+
     static fields () {
         return {
             ...super.fields(),

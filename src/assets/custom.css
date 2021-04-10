@@ -94,3 +94,14 @@ text.text--secondary {
 .v-btn-group > .v-btn:last-child {
    border-radius: 0 4px 4px 0;
  }
+
+/*
+ * Lane Chart stuff
+ */
+.svg-lane-chart-bar {
+
+}
+
+.svg-lane-chart-bar:hover {
+    opacity: 0.5
+}

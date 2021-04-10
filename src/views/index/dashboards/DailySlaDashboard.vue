@@ -12,7 +12,7 @@
         </v-row>
         <v-row>
             <v-col>
-                <dashboard-view-selector ref="selector" view="weekly"></dashboard-view-selector>
+                <dashboard-view-selector ref="selector" view="daily"></dashboard-view-selector>
             </v-col>
         </v-row>
 
@@ -22,20 +22,20 @@
             </v-col>
         </v-row>
 
-        <weekly-sla-data-table></weekly-sla-data-table>
+        <daily-sla-data-table></daily-sla-data-table>
 
     </div>
 
 </template>
 
 <script>
-import Dashboard from "@/views/sla/Dashboard";
-import WeeklySlaDataTable from "@/components/tables/sla/WeeklySlaDataTable";
+import Dashboard from "@/views/index/dashboards/Dashboard";
+import DailySlaDataTable from "@/components/tables/sla/DailySlaDataTable";
 
 export default {
 
     components: {
-        WeeklySlaDataTable
+        DailySlaDataTable
     },
 
     extends: Dashboard

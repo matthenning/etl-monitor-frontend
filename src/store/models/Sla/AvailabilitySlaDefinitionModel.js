@@ -13,6 +13,10 @@ export default class AvailabilitySlaDefinitionModel extends SlaDefinitionModel {
         ]
     }
 
+    static route = {
+        title: 'SLA'
+    }
+
     static fields () {
         return {
             ...super.fields(),

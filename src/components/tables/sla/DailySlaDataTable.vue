@@ -18,7 +18,7 @@
             <template v-slot:header.definition.lifecycle.name="{ item }">
                 <span class="body-2">Lifecycle</span>
             </template>
-            <template v-slot:header.target="{ item }">
+            <template v-slot:header.end="{ item }">
                 <span class="body-2">Target</span>
             </template>
             <template v-slot:header.landing="{ item }">
@@ -51,7 +51,7 @@
             <template v-slot:item.definition.lifecycle.name="{ item }">
                 <span>{{ item.definition.lifecycle.name }}</span>
             </template>
-            <template v-slot:item.target="{ item }">
+            <template v-slot:item.end="{ item }">
                 <achievement-pie :sla="item"></achievement-pie>
             </template>
             <template v-slot:item.landing="{ item }">
@@ -74,11 +74,16 @@
                 <span class="font-weight-bold">John Doe</span>
             </template>
             <template v-slot:item.actions="{ item }">
+                <v-btn class="ma-2" icon elevation="0" @click="showSlaDetails(item)">
+                    <v-icon>mdi-information-outline</v-icon>
+                </v-btn>
                 <v-btn class="ma-2" icon elevation="0">
                     <v-icon>mdi-bell-ring-outline</v-icon>
                 </v-btn>
             </template>
         </v-data-table>
+
+        <deliverable-sla-details-modal :id="selected_sla_id" v-on:close="closeSlaDetails"></deliverable-sla-details-modal>
     </v-container>
 
 </template>
@@ -94,9 +99,13 @@ import AvailabilitySlaSummarySvg from "@/svg/AvailabilitySlaSummarySvg";
 import DeliverableSlaHistorySvg from "@/svg/DeliverableSlaHistorySvg";
 import DeliverableSlaSummarySvg from "@/svg/DeliverableSlaSummarySvg";
 import AvailabilitySlaHistorySvg from "@/svg/AvailabilitySlaHistorySvg";
+import AutomicEtlDefinitionModel from "@/store/models/Etl/AutomicEtlDefinitionModel";
+import ModelFactory from "@/store/models/ModelFactory";
+import DeliverableSlaDetailsModal from "@/components/modals/DeliverableSlaDetailsModal";
 
 export default {
     components: {
+        DeliverableSlaDetailsModal,
         AchievementPie,
         AvailabilitySlaSummarySvg,
         DeliverableSlaHistorySvg,
@@ -118,7 +127,7 @@ export default {
             },
             model: SlaModel,
             models: [ DeliverableSlaModel, AvailabilitySlaModel ],
-            relations: [],
+            relations: [ 'definition', 'statistic' ],
             endpoint: 'inRange',
             endpoint_params: [],
             headers: [
@@ -165,11 +174,13 @@ export default {
                 },
                 {
                     text: 'Actions',
+                    align: 'center',
                     sortable: false,
                     value: 'actions',
-                    width: 50
+                    width: 120
                 }
-            ]
+            ],
+            selected_sla_id: null
         }
     },
 
@@ -217,6 +228,13 @@ export default {
         },
         diffInDays (ts) {
             return moment(ts).diff(moment(), 'day')
+        },
+        showSlaDetails (sla) {
+            this.selected_sla_id = sla.id
+            this.$emit('ShowSlaDetails')
+        },
+        closeSlaDetails () {
+            this.selected_sla_id = null
         }
     },
 

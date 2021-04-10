@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import Dashboard from "@/views/sla/Dashboard";
+import Dashboard from "@/views/index/dashboards/Dashboard";
 
 export default {
     extends: Dashboard

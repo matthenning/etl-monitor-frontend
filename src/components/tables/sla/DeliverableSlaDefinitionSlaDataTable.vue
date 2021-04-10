@@ -99,8 +99,8 @@ import AchievementPie from "@/svg/AchievementPie";
 import SlaModel from "@/store/models/Sla/SlaModel";
 import PaginatedComponent from "@/components/PaginatedComponent";
 import GroupSlaByDefinitionAndWeek from "@/services/GroupSlaByDefinitionAndWeek";
-import AvailabilitySlaModel from "@/store/models/Sla/AvailabilitySlaModel";
-import AvailabilitySlaDefinitionModel from "@/store/models/Sla/AvailabilitySlaDefinitionModel";
+import DeliverableSlaModel from "@/store/models/Sla/DeliverableSlaModel";
+import DeliverableSlaDefinitionModel from "@/store/models/Sla/DeliverableSlaDefinitionModel";
 
 export default {
 
@@ -122,7 +122,7 @@ export default {
                 paginate: false
             },
             model: SlaModel,
-            store_model: AvailabilitySlaModel,
+            store_model: DeliverableSlaModel,
             endpoint: 'inRange',
             endpoint_params: [],
             relations: [],
@@ -207,7 +207,7 @@ export default {
 
     computed: {
         definition () {
-            return AvailabilitySlaDefinitionModel.find(this.definitionId)
+            return DeliverableSlaDefinitionModel.find(this.definitionId)
         },
         rangeStart () {
             return moment(this.$parent.$refs.selector.selectedDates[0]).startOf('isoWeek').format()

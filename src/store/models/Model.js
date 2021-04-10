@@ -12,10 +12,12 @@ export default class Model extends VuexModel {
     static baseUrl = config.api.basePath + config.api.prefix
     static webBaseUrl = config.web.basePath + config.web.prefix
     static icon = 'mdi-help'
+    static id_field = 'id'
 
     constructor(...args) {
         super(...args);
         this.model = models[this.constructor.toString().split('(' || /s+/)[0].split(' ' || /s+/)[1] + 'Model'];
+        if (!this.model.route.title) this.model.route.title = this.model.name
     }
 
     get _show () {
@@ -43,6 +45,10 @@ export default class Model extends VuexModel {
 
     static axiosConfig = {
         dataKey: 'data'
+    }
+
+    static route = {
+        title: null
     }
 
     static fields () {

@@ -33,6 +33,7 @@ export default class SlaDefinitionModel extends Model {
             name: this.attr(''),
             email: this.attr(null),
             target_percent: this.attr(null),
+            rules: this.attr(null),
 
             lifecycle: this.belongsTo(SlaDefinitionLifecycleModel, 'lifecycle_id'),
             statistic: this.hasOne(SlaDefinitionStatisticModel, 'sla_definition_id')

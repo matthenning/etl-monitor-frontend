@@ -1,7 +1,7 @@
 <template>
 
     <v-container fluid>
-        <automic-etl-execution-history :executions="objects"></automic-etl-execution-history>
+        <automic-etl-execution-history :executions.sync="objects"></automic-etl-execution-history>
     </v-container>
 
 </template>

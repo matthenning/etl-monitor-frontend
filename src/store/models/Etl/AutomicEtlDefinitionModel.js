@@ -7,6 +7,10 @@ export default class AutomicEtlDefinitionModel extends EtlDefinitionModel {
     static package = 'etl'
     static menu = false
 
+    static route = {
+        title: 'ETL'
+    }
+
     static fields () {
         return {
             ...super.fields(),
