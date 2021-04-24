@@ -23,7 +23,9 @@
                 store_model: null,
                 relations: null,
                 recursionDepth: 3,
-                ready_to_load: false
+                ready_to_load: false,
+                initial_load_done_hooks: [],
+                ignore_linked: false
             }
         },
 
@@ -51,6 +53,7 @@
 
             initialDone () {
                 this.initial = false
+                this.initial_load_done_hooks.forEach((h) => h())
                 if (this.onInitialLoadDone) this.onInitialLoadDone()
             },
 

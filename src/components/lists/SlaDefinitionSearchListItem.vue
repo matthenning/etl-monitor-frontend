@@ -4,7 +4,13 @@
             <v-icon>{{ result.icon }}</v-icon>
         </v-list-item-avatar>
         <v-list-item-content>
-            <v-list-item-title v-html="definition.name"></v-list-item-title>
+            <v-list-item-title>
+                {{ definition.name }}
+
+                <span class="ml-2" v-for="tag in definition.tags">
+                    <span class="caption">{{ tag.name }}</span>
+                </span>
+            </v-list-item-title>
             <v-list-item-subtitle>
                 <sla-history-boxes-svg v-if="history" :history="history" :definition="definition"></sla-history-boxes-svg>
             </v-list-item-subtitle>

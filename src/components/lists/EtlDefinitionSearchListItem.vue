@@ -34,6 +34,7 @@ export default {
                 return {
                     day: moment(h.end),
                     status: h.status,
+                    anomaly: h.anomaly
                 }
             })
         }

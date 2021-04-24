@@ -1,12 +1,22 @@
 import Model from "../Model"
 import EtlDefinitionStatisticModel from "@/store/models/Etl/EtlDefinitionStatisticModel";
-import EtlDefinitionDependsonPivotModel from "@/store/models/Etl/Pivot/EtlDefinitionDependsonPivotModel";
 
 export default class EtlDefinitionModel extends Model {
     static name = 'EtlDefinition'
     static entity = 'etl_definitions'
     static package = 'etl'
     static menu = false
+
+    static apiConfig = {
+        actions: {
+            ...Model.apiConfig.actions,
+            depends_on: {
+                method: 'get',
+                url: Model.baseUrl,
+                postfix: 'depends_on'
+            }
+        }
+    }
 
     static getRelationNames () {
         return [

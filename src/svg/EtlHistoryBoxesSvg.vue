@@ -6,13 +6,18 @@
 
         <svg version="1.2" :height="dimensions.height" :width="dimensions.width">
 
-            <svg v-for="(exec, index) in history" :key="id(index)" :width="widthBox(exec)" :x="positionBoxX(index)" :height="dimensions.box_size + 4" y="0"
+            <svg v-for="(exec, index) in history" :key="id(index)" :width="widthBox(exec)" :x="positionBoxX(index)" :height="dimensions.height" y="0"
                  @mouseenter="mouseenter(index, exec)" @mouseleave="mouseleave(index, exec)">
 
-                <rect v-if="isStartOfWeek(exec)" x="4" y="0" width="2" :height="dimensions.box_size + 4" :fill="color.default.stroke"></rect>
+                <rect v-if="isStartOfWeek(exec)" x="4" y="0" width="2" :height="dimensions.box_size + 2" :fill="color.default.stroke"></rect>
 
-                <rect :x="boxOffsetX(exec)" :y="2" :height="dimensions.box_size" :width="dimensions.box_size" :id="id(index)"
+                <rect :x="boxOffsetX(exec)" :y="1" :height="dimensions.box_size" :width="dimensions.box_size" :id="id(index)"
                       :fill="fillBox(exec)" :stroke="strokeBox(exec)" />
+
+                <circle v-if="exec.anomaly && exec.anomaly.length > 0"
+                        :cx="boxOffsetX(exec) + dimensions.box_size / 2" :cy="2 + dimensions.box_size + 3"
+                        :r="1" :stroke="color.anomaly.stroke" :fill="color.anomaly.fill"
+                ></circle>
 
             </svg>
         </svg>
@@ -33,9 +38,9 @@ export default {
             type: Object,
             default: () => {
                 return {
-                    height: 14,
+                    height: 24,
                     width: 600,
-                    box_size: 7,
+                    box_size: 9,
                 }
             }
         }
@@ -52,7 +57,7 @@ export default {
 
     methods: {
         id (index) {
-            return 'etl-history-rect-' + this.definition.id + '--' + index
+            return 'etl-history-rect-' + this.definition.id + '--' + index + '--' + this.svg_id
         },
         getMondays (index) {
             return this.history.slice(0, index).filter((d) => moment(d.day).weekday() === 1).length
@@ -78,9 +83,9 @@ export default {
         },
         
         fillBox (day) {
-            if (day.status === 'ok') return this.color.success.fill
-            if (day.status === 'error') return this.color.critical.fill
-            return this.color.default.fill
+            if (day.status === 'ok') return this.color.success.hint
+            if (day.status === 'error') return this.color.critical.hint
+            return this.color.default.hint
         },
         strokeBox (day) {
             if (day.status === 'ok') return this.color.success.stroke

@@ -19,6 +19,13 @@
             </v-col>
         </v-row>
 
+        <v-row>
+            <v-col>
+                <v-divider></v-divider>
+            </v-col>
+        </v-row>
+
+
         <v-row v-if="object && object.depends_on && object.depends_on.length > 0">
             <v-col>
                 <automic-etl-definition-dependson :id="id" :linked-object="object"></automic-etl-definition-dependson>
@@ -27,13 +34,13 @@
 
         <v-row>
             <v-col>
-                <etl-execution-list-selector ref="selector"></etl-execution-list-selector>
+                <v-divider></v-divider>
             </v-col>
         </v-row>
 
         <v-row>
             <v-col>
-                <v-divider></v-divider>
+                <etl-execution-list-selector ref="selector"></etl-execution-list-selector>
             </v-col>
         </v-row>
 

@@ -18,10 +18,10 @@
                 return this.identityOf(this.model.name, this.id)
             },
             object () {
-                if (this.linkedObject)
+                if (this.linkedObject && !this.ignore_linked)
                     return this.linkedObject
 
-                if(this.ready_to_load)
+                if (this.ready_to_load)
                     return this.store_model.query().withAllRecursive(this.recursionDepth).find(this.id)
 
                 return null

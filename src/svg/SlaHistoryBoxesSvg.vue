@@ -78,10 +78,10 @@ export default {
         },
         
         fillBox (day) {
-            if (this.isInErrorMargin(day)) return this.color.warning.fill
-            if (day.status === 'achieved') return this.color.success.fill
-            if (day.status === 'failed') return this.color.critical.fill
-            return this.color.default.fill
+            if (this.isInErrorMargin(day)) return this.color.warning.hint
+            if (day.status === 'achieved') return this.color.success.hint
+            if (day.status === 'failed') return this.color.critical.hint
+            return this.color.default.hint
         },
         strokeBox (day) {
             if (this.isInErrorMargin(day)) return this.color.warning.stroke

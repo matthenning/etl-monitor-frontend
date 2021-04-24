@@ -26,6 +26,8 @@ import TimerangeModel from "@/store/models/Sla/TimerangeModel";
 import WeeklyTimerangeModel from "@/store/models/Sla/WeeklyTimerangeModel";
 import DailyTimerangeModel from "@/store/models/Sla/DailyTimerangeModel";
 import EtlDefinitionDependsonPivotModel from "@/store/models/Etl/Pivot/EtlDefinitionDependsonPivotModel";
+import SlaDefinitionTagModel from "@/store/models/Sla/SlaDefinitionTagModel";
+import SlaDefinitionTagPivotModel from "@/store/models/Sla/Pivot/SlaDefinitionTagPivotModel";
 
 export default {
     EtlDefinitionDependsonPivotModel: EtlDefinitionDependsonPivotModel,
@@ -40,6 +42,8 @@ export default {
     DailyTimerangeModel: DailyTimerangeModel,
     WeeklyTimerangeModel: WeeklyTimerangeModel,
 
+    SlaDefinitionTagModel: SlaDefinitionTagModel,
+    SlaDefinitionTagPivotModel: SlaDefinitionTagPivotModel,
     SlaModel: SlaModel,
     SlaAchievementConditionModel: SlaAchievementConditionModel,
 
