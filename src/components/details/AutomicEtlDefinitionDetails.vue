@@ -19,6 +19,12 @@
             </v-col>
         </v-row>
 
+        <v-row v-if="object && object.depends_on && object.depends_on.length > 0">
+            <v-col>
+                <automic-etl-definition-dependson :id="id" :linked-object="object"></automic-etl-definition-dependson>
+            </v-col>
+        </v-row>
+
         <v-row>
             <v-col>
                 <etl-execution-list-selector ref="selector"></etl-execution-list-selector>
@@ -43,14 +49,18 @@ import SlaListSelector from "@/views/sla/selector/SlaListSelector";
 import AutomicEtlDefinitionModel from "@/store/models/Etl/AutomicEtlDefinitionModel";
 import AutomicEtlDefinitionExecutionsChart from "@/components/charts/AutomicEtlDefinitionExecutionsChart";
 import EtlExecutionListSelector from "@/views/show/EtlExecutionListSelector";
+import AutomicEtlDefinitionDependson from "@/components/details/parts/AutomicEtlDefinitionDependson";
 
 export default {
-    components: {AutomicEtlDefinitionExecutionsChart, SlaListSelector, EtlExecutionListSelector},
+    components: {
+        AutomicEtlDefinitionDependson,
+        AutomicEtlDefinitionExecutionsChart, SlaListSelector, EtlExecutionListSelector},
     extends: SingleComponent,
 
     data () {
         return {
-            model: AutomicEtlDefinitionModel
+            model: AutomicEtlDefinitionModel,
+            relations: [ 'depends_on' ]
         }
     }
 

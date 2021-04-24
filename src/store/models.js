@@ -22,8 +22,13 @@ import SlaModel from "@/store/models/Sla/SlaModel";
 import SlaAchievementConditionModel from "@/store/models/Sla/SlaAchievementConditionModel";
 import DeliverableSlaProgressModel from "@/store/models/Sla/DeliverableSlaProgressModel";
 import AvailabilitySlaProgressModel from "@/store/models/Sla/AvailabilitySlaProgressModel";
+import TimerangeModel from "@/store/models/Sla/TimerangeModel";
+import WeeklyTimerangeModel from "@/store/models/Sla/WeeklyTimerangeModel";
+import DailyTimerangeModel from "@/store/models/Sla/DailyTimerangeModel";
+import EtlDefinitionDependsonPivotModel from "@/store/models/Etl/Pivot/EtlDefinitionDependsonPivotModel";
 
 export default {
+    EtlDefinitionDependsonPivotModel: EtlDefinitionDependsonPivotModel,
     EtlDefinitionModel: EtlDefinitionModel,
     EtlDefinitionStatisticModel: EtlDefinitionStatisticModel,
     AutomicEtlDefinitionModel: AutomicEtlDefinitionModel,
@@ -31,6 +36,9 @@ export default {
     EtlExecutionModel: EtlExecutionModel,
     AutomicEtlExecutionModel: AutomicEtlExecutionModel,
 
+    TimerangeModel: TimerangeModel,
+    DailyTimerangeModel: DailyTimerangeModel,
+    WeeklyTimerangeModel: WeeklyTimerangeModel,
 
     SlaModel: SlaModel,
     SlaAchievementConditionModel: SlaAchievementConditionModel,

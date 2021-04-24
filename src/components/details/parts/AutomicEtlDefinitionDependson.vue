@@ -3,15 +3,14 @@
     <div>
         <v-row>
             <v-col>
-                <span class="text-h5">SLA Rules</span>
+                <span class="text-h5">Depends on / Predecessors</span>
             </v-col>
         </v-row>
 
-        <template v-if="object && object.rules && object.rules.etls">
+        <template v-if="object && object.depends_on && object.depends_on.length > 0">
             <v-row>
                 <v-col>
-                    <span class="font-weight-bold">ETL Completion</span>
-                    <etl-definition-list-item v-for="etl in object.rules.etls" :key="etl.id" :id="etl.id"></etl-definition-list-item>
+                    <etl-definition-list-item v-for="etl in object.depends_on" :key="etl.id" :id="etl.id"></etl-definition-list-item>
                 </v-col>
             </v-row>
         </template>
@@ -21,8 +20,8 @@
 
 <script>
 import SingleComponent from "@/components/SingleComponent";
-import DeliverableSlaDefinitionModel from "@/store/models/Sla/DeliverableSlaDefinitionModel";
 import EtlDefinitionListItem from "@/components/lists/EtlDefinitionListItem";
+import AutomicEtlDefinitionModel from "@/store/models/Etl/AutomicEtlDefinitionModel";
 
 export default {
     components: {EtlDefinitionListItem},
@@ -30,7 +29,7 @@ export default {
 
     data () {
         return {
-            model: DeliverableSlaDefinitionModel
+            model: AutomicEtlDefinitionModel
         }
     }
 

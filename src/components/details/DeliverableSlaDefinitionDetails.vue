@@ -26,8 +26,11 @@
         </v-row>
 
         <v-row>
-            <v-col>
+            <v-col xs="12" sm="12" md="12" lg="6" xl="6">
                 <deliverable-sla-rules :id="id" :linked-object="object"></deliverable-sla-rules>
+            </v-col>
+            <v-col xs="12" sm="12" md="12" lg="6" xl="6">
+                <deliverable-sla-timeranges :id="id" :linked-object="object"></deliverable-sla-timeranges>
             </v-col>
         </v-row>
 
@@ -61,9 +64,10 @@ import SlaListSelector from "@/views/sla/selector/SlaListSelector";
 import DeliverableSlaDefinitionSlaDataTable from "@/components/tables/sla/DeliverableSlaDefinitionSlaDataTable";
 import DeliverableSlaDefinitionModel from "@/store/models/Sla/DeliverableSlaDefinitionModel";
 import DeliverableSlaRules from "@/components/details/parts/DeliverableSlaRules";
+import DeliverableSlaTimeranges from "@/components/details/parts/DeliverableSlaTimeranges";
 
 export default {
-    components: {SlaListSelector, DeliverableSlaDefinitionSlaDataTable, DeliverableSlaRules},
+    components: {SlaListSelector, DeliverableSlaDefinitionSlaDataTable, DeliverableSlaRules, DeliverableSlaTimeranges},
     extends: SingleComponent,
 
     data () {

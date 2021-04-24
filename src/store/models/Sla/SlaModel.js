@@ -1,5 +1,7 @@
 import Model from "../Model"
 import SlaAchievementConditionModel from "@/store/models/Sla/SlaAchievementConditionModel";
+import DailyTimerangeModel from "@/store/models/Sla/DailyTimerangeModel";
+import WeeklyTimerangeModel from "@/store/models/Sla/WeeklyTimerangeModel";
 
 export default class SlaModel extends Model {
     static name = 'Sla'

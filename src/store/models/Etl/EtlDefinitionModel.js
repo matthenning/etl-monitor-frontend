@@ -1,5 +1,6 @@
 import Model from "../Model"
 import EtlDefinitionStatisticModel from "@/store/models/Etl/EtlDefinitionStatisticModel";
+import EtlDefinitionDependsonPivotModel from "@/store/models/Etl/Pivot/EtlDefinitionDependsonPivotModel";
 
 export default class EtlDefinitionModel extends Model {
     static name = 'EtlDefinition'
@@ -9,7 +10,7 @@ export default class EtlDefinitionModel extends Model {
 
     static getRelationNames () {
         return [
-            'statistic'
+            'statistic', 'depends_on'
         ]
     }
 
