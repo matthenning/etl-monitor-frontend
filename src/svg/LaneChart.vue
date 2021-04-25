@@ -164,10 +164,10 @@ export default {
             return this.positionTime(end) - this.positionBarX(execution)
         },
         colorFill (execution) {
-            if (!execution.date_end_pp) return this.color.default.fill
-            if (execution.status_text === 'success') return this.color.success.fill
-            if (execution.status_text === 'error') return this.color.critical.fill
-            return this.color.default.fill
+            if (!execution.date_end_pp) return this.color.default.hint
+            if (execution.status_text === 'success') return this.color.success.hint
+            if (execution.status_text === 'error') return this.color.critical.hint
+            return this.color.default.hint
         },
         colorStroke (execution) {
             if (!execution.date_end_pp) return this.color.default.stroke

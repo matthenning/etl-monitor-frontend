@@ -1,6 +1,4 @@
 import Model from "../Model"
-import SlaDefinitionTagPivotModel from "@/store/models/Sla/Pivot/SlaDefinitionTagPivotModel";
-import SlaDefinitionModel from "@/store/models/Sla/SlaDefinitionModel";
 
 export default class SlaDefinitionTagModel extends Model {
     static name = 'SlaDefinitionTag'
@@ -10,18 +8,17 @@ export default class SlaDefinitionTagModel extends Model {
 
     static getRelationNames () {
         return [
-            'definition'
+            'sla_definition'
         ]
     }
 
     static fields () {
         return {
+            ...super.fields(),
             name: this.attr(null),
             hide_name: this.attr(false),
             icon: this.attr(null),
-            color: this.attr(null),
-
-            definition: this.belongsToMany(SlaDefinitionModel, SlaDefinitionTagPivotModel, 'tag_id', 'sla_definition_id')
+            color: this.attr(null)
         }
     }
 }

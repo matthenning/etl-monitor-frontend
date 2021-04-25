@@ -1,10 +1,8 @@
 import Model from "../Model"
 import SlaDefinitionLifecycleModel from "@/store/models/Sla/SlaDefinitionLifecycleModel"
-import DeliverableSlaModel from "@/store/models/Sla/DeliverableSlaModel";
 import SlaDefinitionStatisticModel from "@/store/models/Sla/SlaDefinitionStatisticModel";
 import DailyTimerangeModel from "@/store/models/Sla/DailyTimerangeModel";
 import WeeklyTimerangeModel from "@/store/models/Sla/WeeklyTimerangeModel";
-import EtlDefinitionDependsonPivotModel from "@/store/models/Etl/Pivot/EtlDefinitionDependsonPivotModel";
 import SlaDefinitionTagModel from "@/store/models/Sla/SlaDefinitionTagModel";
 import SlaDefinitionTagPivotModel from "@/store/models/Sla/Pivot/SlaDefinitionTagPivotModel";
 
@@ -16,7 +14,7 @@ export default class SlaDefinitionModel extends Model {
 
     static getRelationNames () {
         return [
-            'slas', 'lifecycle', 'tags',
+            'slas', 'lifecycle', 'tags', 'affecting_etls',
             'daily_timeranges', 'weekly_timeranges'
         ]
     }

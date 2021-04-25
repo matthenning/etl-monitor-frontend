@@ -6,19 +6,21 @@
 
         <svg version="1.2" :height="dimensions.height" :width="dimensions.width">
 
-            <svg v-for="(exec, index) in history" :key="id(index)" :width="widthBox(exec)" :x="positionBoxX(index)" :height="dimensions.height" y="0"
-                 @mouseenter="mouseenter(index, exec)" @mouseleave="mouseleave(index, exec)">
+            <svg v-for="(exec, index) in history" :key="id(index)" :width="widthBox(exec)" :x="positionBoxX(index)" :height="dimensions.height" y="0">
 
-                <rect v-if="isStartOfWeek(exec)" x="4" y="0" width="2" :height="dimensions.box_size + 2" :fill="color.default.stroke"></rect>
+                <rect v-if="isStartOfWeek(exec) && index > 0" :x="4" :y="5" width="2" :height="dimensions.box_size + 2" :fill="color.default.stroke" />
 
-                <rect :x="boxOffsetX(exec)" :y="1" :height="dimensions.box_size" :width="dimensions.box_size" :id="id(index)"
-                      :fill="fillBox(exec)" :stroke="strokeBox(exec)" />
+                <svg @mouseenter="mouseenter(index, exec)" @mouseleave="mouseleave(index, exec)">
+                    <rect :x="boxOffsetX(exec, index)" :y="6" :height="dimensions.box_size" :width="dimensions.box_size" :id="id(index)"
+                          :fill="fillBox(exec)" :stroke="strokeBox(exec)" rx="2" ry="2" />
 
-                <circle v-if="exec.anomaly && exec.anomaly.length > 0"
-                        :cx="boxOffsetX(exec) + dimensions.box_size / 2" :cy="2 + dimensions.box_size + 3"
-                        :r="1" :stroke="color.anomaly.stroke" :fill="color.anomaly.fill"
-                ></circle>
+                    <rect v-if="isCurrentDay(exec)" :x="1" :y="3" :height="dimensions.box_size + 6" :width="dimensions.box_size + 6"
+                          fill="transparent" :stroke="strokeBox(exec)" rx="3" ry="3" stroke-width="2" />
 
+                    <circle v-if="exec.anomaly && exec.anomaly.length > 0"
+                            :cx="boxOffsetX(exec, index) + dimensions.box_size / 2" :cy="dimensions.box_size + 14"
+                            :r="1" :stroke="color.anomaly.stroke" :fill="color.anomaly.fill" />
+                </svg>
             </svg>
         </svg>
     </div>
@@ -38,9 +40,9 @@ export default {
             type: Object,
             default: () => {
                 return {
-                    height: 24,
+                    height: 32,
                     width: 600,
-                    box_size: 9,
+                    box_size: 12
                 }
             }
         }
@@ -59,8 +61,14 @@ export default {
         id (index) {
             return 'etl-history-rect-' + this.definition.id + '--' + index + '--' + this.svg_id
         },
+        isCurrentDay (exec) {
+            return moment(exec.day).isSame(moment(), 'day')
+        },
         getMondays (index) {
-            return this.history.slice(0, index).filter((d) => moment(d.day).weekday() === 1).length
+            let mondays = this.history.slice(0, index).filter((d) => moment(d.day).weekday() === 1).length
+            if (this.isStartOfWeek(this.history[0])) mondays--
+
+            return mondays
         },
         isInErrorMargin (day) {
             return day.achieved_at &&
@@ -72,14 +80,14 @@ export default {
         },
         positionBoxX (index) {
             if (index === 0) return 0
-            return index * (this.dimensions.box_size + 4) + this.getMondays(index) * 8
+            return index * (this.dimensions.box_size + 6) + this.getMondays(index) * 8
         },
         widthBox (day) {
             let add = this.isStartOfWeek(day) ? 8 : 0
-            return this.dimensions.box_size + 4 + add
+            return this.dimensions.box_size + 9 + add
         },
-        boxOffsetX (day) {
-            return this.isStartOfWeek(day) ? 11 : 3
+        boxOffsetX (day, index) {
+            return this.isStartOfWeek(day) && index > 0 ? 12 : 4
         },
         
         fillBox (day) {

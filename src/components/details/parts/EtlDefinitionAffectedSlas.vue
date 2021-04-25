@@ -3,7 +3,7 @@
     <div>
         <v-row>
             <v-col>
-                <span class="text-h6 font-weight-light">Depends on / Predecessors</span>
+                <span class="text-h6 font-weight-light">Affected SLAs</span>
 
                 <v-dialog v-model="dialog_tree_view" fullscreen hide-overlay transition="dialog-bottom-transition">
                     <template v-slot:activator="{ on, attrs }">
@@ -20,7 +20,6 @@
 
                         <v-container fluid>
                             <v-card-text>
-                                <etl-dependency-tree :initial-id="object.id"></etl-dependency-tree>
                             </v-card-text>
                         </v-container>
                     </v-card>
@@ -28,11 +27,10 @@
             </v-col>
         </v-row>
 
-        <template v-if="object && object.depends_on && object.depends_on.length > 0">
+        <template v-if="object && object.affected_slas && object.affected_slas.length > 0">
             <v-row>
                 <v-col>
-                    <span class="font-weight-light">ETLs</span>
-                    <etl-definition-list-item v-for="etl in object.depends_on" :key="etl.id" :id="etl.id"></etl-definition-list-item>
+                    <sla-definition-list-item v-for="sla in object.affected_slas" :key="sla.id" :id="sla.id" :linked-object="sla"></sla-definition-list-item>
                 </v-col>
             </v-row>
         </template>
@@ -45,16 +43,18 @@ import SingleComponent from "@/components/SingleComponent";
 import EtlDefinitionListItem from "@/components/lists/EtlDefinitionListItem";
 import AutomicEtlDefinitionModel from "@/store/models/Etl/AutomicEtlDefinitionModel";
 import EtlDependencyTree from "@/components/lists/EtlDependencyTree";
+import DeliverableSlaDefinition from "@/views/show/DeliverableSlaDefinition";
+import SlaDefinitionListItem from "@/components/lists/SlaDefinitionListItem";
 
 export default {
-    components: {EtlDependencyTree, EtlDefinitionListItem},
+    components: {SlaDefinitionListItem, DeliverableSlaDefinition, EtlDependencyTree, EtlDefinitionListItem},
     extends: SingleComponent,
 
     data () {
         return {
             dialog_tree_view: false,
             model: AutomicEtlDefinitionModel,
-            relations: [ 'statistic', 'depends_on.statistic' ]
+            relations: [ 'statistic', 'affected_slas' ]
         }
     },
 

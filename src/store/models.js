@@ -28,8 +28,10 @@ import DailyTimerangeModel from "@/store/models/Sla/DailyTimerangeModel";
 import EtlDefinitionDependsonPivotModel from "@/store/models/Etl/Pivot/EtlDefinitionDependsonPivotModel";
 import SlaDefinitionTagModel from "@/store/models/Sla/SlaDefinitionTagModel";
 import SlaDefinitionTagPivotModel from "@/store/models/Sla/Pivot/SlaDefinitionTagPivotModel";
+import EtlDefinitionAffectedSlaPivotModel from "@/store/models/Etl/Pivot/EtlDefinitionAffectedSlaPivotModel";
 
 export default {
+    EtlDefinitionAffectedSlaPivotModel: EtlDefinitionAffectedSlaPivotModel,
     EtlDefinitionDependsonPivotModel: EtlDefinitionDependsonPivotModel,
     EtlDefinitionModel: EtlDefinitionModel,
     EtlDefinitionStatisticModel: EtlDefinitionStatisticModel,

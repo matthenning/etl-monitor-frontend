@@ -74,6 +74,9 @@ export default {
 
     data () {
         return {
+            dimensions: {
+                box_size: 12
+            },
             container_id: 'automic-etl-execution-history-svg',
             fields: {
                 start: 'date_start',

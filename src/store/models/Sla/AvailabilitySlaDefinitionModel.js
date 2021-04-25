@@ -7,12 +7,6 @@ export default class AvailabilitySlaDefinitionModel extends SlaDefinitionModel {
     static package = 'sla'
     static menu = false
 
-    static getRelationNames () {
-        return [
-            'slas'
-        ]
-    }
-
     static route = {
         title: 'SLA'
     }

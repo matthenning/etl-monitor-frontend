@@ -6,14 +6,17 @@
 
         <svg version="1.2" :height="dimensions.height" :width="dimensions.width">
 
-            <svg v-for="(day, index) in history" :key="id(index)" :width="widthBox(day)" :x="positionBoxX(index)" :height="dimensions.box_size + 4" y="0"
-                 @mouseenter="mouseenter(index, day)" @mouseleave="mouseleave(index, day)">
+            <svg v-for="(day, index) in history" :key="id(index)" :width="widthBox(day)" :x="positionBoxX(index)" :height="dimensions.height" y="0">
 
-                <rect v-if="isStartOfWeek(day)" x="4" y="0" width="2" :height="dimensions.box_size + 4" :fill="color.default.stroke"></rect>
+                <rect v-if="isStartOfWeek(day) && index > 0" :x="4" :y="5" width="2" :height="dimensions.box_size + 2" :fill="color.default.stroke"></rect>
 
-                <rect :x="boxOffsetX(day)" :y="2" :height="dimensions.box_size" :width="dimensions.box_size" :id="id(index)"
-                      :fill="fillBox(day)" :stroke="strokeBox(day)" />
+                <svg @mouseenter="mouseenter(index, day)" @mouseleave="mouseleave(index, day)">
+                    <rect :x="boxOffsetX(day, index)" :y="6" :height="dimensions.box_size" :width="dimensions.box_size" :id="id(index)"
+                          :fill="fillBox(day)" :stroke="strokeBox(day)" rx="2" ry="2" />
 
+                    <rect v-if="isCurrentDay(day)" :x="1" :y="3" :height="dimensions.box_size + 6" :width="dimensions.box_size + 6"
+                          fill="transparent" :stroke="strokeBox(day)" rx="3" ry="3" stroke-width="2" />
+                </svg>
             </svg>
         </svg>
     </div>
@@ -33,9 +36,9 @@ export default {
             type: Object,
             default: () => {
                 return {
-                    height: 14,
+                    height: 32,
                     width: 600,
-                    box_size: 7,
+                    box_size: 12,
                 }
             }
         }
@@ -54,8 +57,14 @@ export default {
         id (index) {
             return 'sla-history-rect-' + this.definition.id + '--' + index
         },
+        isCurrentDay (day) {
+            return moment(day.day).isSame(moment(), 'day')
+        },
         getMondays (index) {
-            return this.history.slice(0, index).filter((d) => moment(d.day).weekday() === 1).length
+            let mondays = this.history.slice(0, index).filter((d) => moment(d.day).weekday() === 1).length
+            if (this.isStartOfWeek(this.history[0])) mondays--
+
+            return mondays
         },
         isInErrorMargin (day) {
             return day.achieved_at &&
@@ -67,14 +76,14 @@ export default {
         },
         positionBoxX (index) {
             if (index === 0) return 0
-            return index * (this.dimensions.box_size + 4) + this.getMondays(index) * 8
+            return index * (this.dimensions.box_size + 6) + this.getMondays(index) * 8
         },
         widthBox (day) {
             let add = this.isStartOfWeek(day) ? 8 : 0
-            return this.dimensions.box_size + 4 + add
+            return this.dimensions.box_size + 9 + add
         },
-        boxOffsetX (day) {
-            return this.isStartOfWeek(day) ? 11 : 3
+        boxOffsetX (day, index) {
+            return this.isStartOfWeek(day) && index > 0 ? 12 : 4
         },
         
         fillBox (day) {

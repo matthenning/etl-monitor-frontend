@@ -3,14 +3,14 @@
     <div>
         <v-row>
             <v-col>
-                <span class="text-h5">SLA Timeranges</span>
+                <span class="text-h6 font-weight-light">SLA Timeranges</span>
             </v-col>
         </v-row>
 
         <template v-if="object && object.daily_timeranges">
             <v-row>
                 <v-col>
-                    <span class="font-weight-bold">Daily</span>
+                    <span class="font-weight-light">Daily</span>
                     <sla-daily-timerange-svg :timeranges="object.daily_timeranges"></sla-daily-timerange-svg>
                 </v-col>
             </v-row>
@@ -19,7 +19,7 @@
         <template v-if="object && object.weekly_timeranges">
             <v-row>
                 <v-col>
-                    <span class="font-weight-bold">Weekly</span>
+                    <span class="font-weight-light">Weekly</span>
                 </v-col>
             </v-row>
         </template>

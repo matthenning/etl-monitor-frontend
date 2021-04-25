@@ -1,6 +1,8 @@
 <template>
     <v-toolbar flat class="container-aligned">
-        <span class="text-h5">ETL Execution List</span>
+        <span class="text-h6 font-weight-light">Execution History</span>
+
+        <v-spacer></v-spacer>
 
         <template>
             <v-menu
@@ -31,9 +33,7 @@
             </v-menu>
         </template>
 
-        <v-spacer></v-spacer>
-
-        <v-btn outlined color="success" class="toolbar-btn" @click="refresh">Refresh</v-btn>
+        <v-btn outlined color="success" class="toolbar-btn ml-1" @click="refresh">Refresh</v-btn>
     </v-toolbar>
 </template>
 

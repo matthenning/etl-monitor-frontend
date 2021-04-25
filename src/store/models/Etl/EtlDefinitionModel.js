@@ -20,7 +20,7 @@ export default class EtlDefinitionModel extends Model {
 
     static getRelationNames () {
         return [
-            'statistic', 'depends_on'
+            'statistic', 'depends_on', 'affected_slas'
         ]
     }
 

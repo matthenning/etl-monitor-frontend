@@ -4,7 +4,7 @@
         <v-row>
             <v-col>
                 <div>
-                    <span class="text-sm-h3 font-weight-light">
+                    <span class="text-sm-h5 font-weight-light">
                         <template v-if="object">{{ object.name }}</template>
                         <template v-else>...</template>
                     </span>
@@ -14,7 +14,7 @@
                     </span>
                 </div>
                 <div>
-                    <span class="subtitle-1">Deliverable SLA Definition</span>
+                    <span class="subtitle-2 font-weight-light">Deliverable SLA Definition</span>
                 </div>
             </v-col>
         </v-row>
