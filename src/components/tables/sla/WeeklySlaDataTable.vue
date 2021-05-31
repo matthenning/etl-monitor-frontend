@@ -1,6 +1,6 @@
 <template>
 
-    <v-container fluid>
+    <v-container fluid class="pa-0">
         <v-data-table v-if="slas"
                       class="sla-dashboard-data-table"
                       :loading="loading"
@@ -9,10 +9,8 @@
                       :items="slas"
                       :footer-props="{itemsPerPageOptions:[5, 10, 20, 50, ]}">
             <template v-slot:header.definition.name="{ item }">
+                <span class="body-2">&nbsp;</span><br />
                 <span class="body-2">Name</span>
-            </template>
-            <template v-slot:header.definition.lifecycle.name="{ item }">
-                <span class="body-2">Lifecycle</span>
             </template>
             <template v-slot:header.monday="{ item }">
                 <span class="body-2">{{ textDay(1) }}</span><br />
@@ -42,10 +40,8 @@
                 <span class="body-2">{{ textDay(7) }}</span><br />
                 <span class="body-2">Sunday</span>
             </template>
-            <template v-slot:header.responsible="{ item }">
-                <span class="body-2">Responsible</span>
-            </template>
             <template v-slot:header.actions="{ item }">
+                <span class="body-2">&nbsp;</span><br />
                 <span class="body-2">Actions</span>
             </template>
 
@@ -54,9 +50,6 @@
                 <router-link :to="item.definition._show">
                     <a class="font-weight-bold">{{ item.definition.name }}</a>
                 </router-link>
-            </template>
-            <template v-slot:item.definition.lifecycle.name="{ item }">
-                <span>{{ item.definition.lifecycle.name }}</span>
             </template>
 
             <template v-slot:item.monday="{ item }">
@@ -95,9 +88,6 @@
                 <timerange-weekly-exists v-else-if="weeklyExistsOnDay(item, 7)"></timerange-weekly-exists>
             </template>
 
-            <template v-slot:item.responsible="{ item }">
-                <span class="font-weight-bold">John Doe</span>
-            </template>
             <template v-slot:item.actions="{ item }">
                 <v-btn class="ma-2" icon elevation="0">
                     <v-icon>mdi-bell-ring-outline</v-icon>
@@ -157,77 +147,79 @@ export default {
                 {
                     text: 'Name',
                     align: 'start',
+                    class: 'px-3',
+                    cellClass: 'px-3',
                     sortable: true,
-                    value: 'definition.name'
-                },
-                {
-                    text: 'Lifecycle',
-                    align: 'start',
-                    sortable: true,
-                    value: 'definition.lifecycle.name'
+                    value: 'definition.name',
+                    width: 500
                 },
                 {
                     text: 'Monday',
                     align: 'center',
-                    cellClass: 'pr-0',
+                    class: 'px-3',
+                    cellClass: 'px-0',
                     sortable: false,
                     value: 'monday',
-                    width: 120
+                    width: 100
                 },
                 {
                     text: 'Tuesday',
                     align: 'center',
-                    cellClass: 'pr-0',
+                    class: 'px-3',
+                    cellClass: 'px-0',
                     sortable: false,
                     value: 'tuesday',
-                    width: 120
+                    width: 100
                 },
                 {
                     text: 'Wednesday',
                     align: 'center',
-                    cellClass: 'pr-0',
+                    class: 'px-3',
+                    cellClass: 'px-0',
                     sortable: false,
                     value: 'wednesday',
-                    width: 120
+                    width: 100
                 },
                 {
                     text: 'Thursday',
                     align: 'center',
-                    cellClass: 'pr-0',
+                    class: 'px-3',
+                    cellClass: 'px-0',
                     sortable: false,
                     value: 'thursday',
-                    width: 120
+                    width: 100
                 },
                 {
                     text: 'Friday',
                     align: 'center',
-                    cellClass: 'pr-0',
+                    class: 'px-3',
+                    cellClass: 'px-0',
                     sortable: false,
                     value: 'friday',
-                    width: 120
+                    width: 100
                 },
                 {
                     text: 'Saturday',
                     align: 'center',
-                    cellClass: 'pr-0',
+                    class: 'px-3',
+                    cellClass: 'px-0',
                     sortable: false,
                     value: 'saturday',
-                    width: 120
+                    width: 100
                 },
                 {
                     text: 'Sunday',
                     align: 'center',
+                    class: 'px-3',
+                    cellClass: 'px-0',
                     sortable: false,
                     value: 'sunday',
-                    width: 120
-                },
-                {
-                    text: 'Responsible',
-                    sortable: true,
-                    value: 'responsible'
+                    width: 100
                 },
                 {
                     text: 'Actions',
+                    class: 'px-3',
+                    cellClass: 'px-3',
                     sortable: false,
                     value: 'actions',
                     width: 50

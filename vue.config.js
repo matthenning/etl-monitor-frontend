@@ -9,6 +9,12 @@ module.exports = {
         prependData: '@import "~@/ssas/variables.scss"'
       }
     }
+  },
+  pwa: {
+    name: 'MyAppTitle',
+    iconPaths: {
+      favicon32: 'assets/img/icons/favicon-32.png',
+      favicon16: 'assets/img/icons/favicon-16.png'
+    }
   }
-
 }

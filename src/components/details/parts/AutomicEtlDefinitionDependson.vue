@@ -32,7 +32,7 @@
             <v-row>
                 <v-col>
                     <span class="font-weight-light">ETLs</span>
-                    <etl-definition-list-item v-for="etl in object.depends_on" :key="etl.id" :id="etl.id"></etl-definition-list-item>
+                    <etl-definition-list-item v-for="etl in object.depends_on" :key="etl.id" :linked-object="etl" :id="etl.id"></etl-definition-list-item>
                 </v-col>
             </v-row>
         </template>

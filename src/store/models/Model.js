@@ -56,6 +56,7 @@ export default class Model extends VuexModel {
             id: this.attr(null),
             timestamps: this.attr({}),
             _fk: this.attr(''),
+            _entity: this.attr(''),
             _model: this.attr(''),
             _autorefresh: this.attr(false),
             _listen: this.attr(false),

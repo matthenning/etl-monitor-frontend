@@ -1,7 +1,6 @@
 <template>
 
-    <v-container fluid>
-
+    <v-container fluid class="pa-0">
         <v-data-table v-if="objects"
                       class="sla-dashboard-data-table"
                       :loading="loading"
@@ -15,10 +14,7 @@
             <template v-slot:header.definition.name="{ item }">
                 <span class="body-2">Name</span>
             </template>
-            <template v-slot:header.definition.lifecycle.name="{ item }">
-                <span class="body-2">Lifecycle</span>
-            </template>
-            <template v-slot:header.end="{ item }">
+            <template v-slot:header.target="{ item }">
                 <span class="body-2">Target</span>
             </template>
             <template v-slot:header.landing="{ item }">
@@ -26,9 +22,6 @@
             </template>
             <template v-slot:header.history="{ item }">
                 <span class="body-2">History</span>
-            </template>
-            <template v-slot:header.responsible="{ item }">
-                <span class="body-2">Responsible</span>
             </template>
             <template v-slot:header.actions="{ item }">
                 <span class="body-2">Actions</span>
@@ -48,10 +41,7 @@
                     <a class="font-weight-bold">{{ item.definition.name }}</a>
                 </router-link>
             </template>
-            <template v-slot:item.definition.lifecycle.name="{ item }">
-                <span>{{ item.definition.lifecycle.name }}</span>
-            </template>
-            <template v-slot:item.end="{ item }">
+            <template v-slot:item.target="{ item }">
                 <achievement-pie :sla="item"></achievement-pie>
             </template>
             <template v-slot:item.landing="{ item }">
@@ -69,9 +59,6 @@
                 <template v-if="item.type === 'availability'">
                     <availability-sla-history-svg :history="item.sla_history"></availability-sla-history-svg>
                 </template>
-            </template>
-            <template v-slot:item.responsible="{ item }">
-                <span class="font-weight-bold">John Doe</span>
             </template>
             <template v-slot:item.actions="{ item }">
                 <v-btn class="ma-2" icon elevation="0" @click="showSlaDetails(item)">
@@ -145,12 +132,6 @@ export default {
                     value: 'definition.name'
                 },
                 {
-                    text: 'Lifecycle',
-                    align: 'start',
-                    sortable: true,
-                    value: 'definition.lifecycle.name'
-                },
-                {
                     text: 'Target',
                     sortable: false,
                     value: 'target'
@@ -166,11 +147,6 @@ export default {
                     sortable: false,
                     value: 'history',
                     width: 300
-                },
-                {
-                    text: 'Responsible',
-                    sortable: true,
-                    value: 'responsible'
                 },
                 {
                     text: 'Actions',

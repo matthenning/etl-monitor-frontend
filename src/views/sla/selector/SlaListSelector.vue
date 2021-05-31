@@ -33,7 +33,7 @@
             </v-menu>
         </template>
 
-        <v-btn outlined color="success" class="toolbar-btn ml-1" @click="refresh">Refresh</v-btn>
+        <v-btn outlined color="primary" class="toolbar-btn ml-1" @click="refresh">Refresh</v-btn>
     </v-toolbar>
 </template>
 

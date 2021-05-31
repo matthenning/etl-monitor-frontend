@@ -12,14 +12,14 @@ const vuetfiy = new Vuetify({
     theme: {
         themes: {
             light: {
-                primary: colors.orange.darken4,
-                secondary: colors.lightBlue.darken3,
-                accent: colors.indigo.base,
+                primary: colors.teal.darken1,
+                secondary: colors.teal.darken2,
+                accent: colors.teal.lighten2,
             },
             dark: {
-                primary: colors.orange.darken4,
+                primary: colors.lightBlue.darken4,
                 secondary: colors.lightBlue.darken3,
-                accent: colors.indigo.base,
+                accent: colors.lightBlue.accent3,
             }
         },
         dark: false

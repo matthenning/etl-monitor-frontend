@@ -222,6 +222,8 @@
         },
 
         created () {
+            window.document.title = 'MyAppTitle'
+
             axios.interceptors.response.use((response) => response, error => {
                 if (error.response.status === 401 && router.currentRoute.name !== 'login') {
                     router.push('/web/login')

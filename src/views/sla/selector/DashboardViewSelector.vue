@@ -18,6 +18,8 @@
             </v-btn>
         </v-btn-toggle>
 
+        <v-spacer></v-spacer>
+
         <template v-if="activeView === 'daily'">
             <v-menu
                 v-model="datePickerActive"
@@ -118,14 +120,38 @@
 
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn @click="customizeFilterDialogActive = false">Apply</v-btn>
+                    <v-btn color="primary" @click="customizeFilterDialogActive = false">Apply</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
 
-        <v-spacer></v-spacer>
+        <v-dialog v-model="loadFilterDialogActive" width="500">
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn-toggle class="toolbar-btn-toggle ml-2" v-model="loadFilterDialogActive">
+                    <v-btn :value="true" outlined v-bind="attrs" v-on="on">
+                        <v-icon left>mdi-filter-menu-outline</v-icon>
+                        <span class="hidden-sm-and-down">Load Filter</span>
+                    </v-btn>
+                </v-btn-toggle>
+            </template>
 
-        <v-btn outlined color="success" class="toolbar-btn" @click="refresh">Refresh</v-btn>
+            <v-card>
+                <v-card-title class="headline">Load Filter</v-card-title>
+
+                <v-card-text>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </v-card-text>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" @click="loadFilterDialogActive = false">Load</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+        <v-btn outlined color="primary" class="toolbar-btn ml-2" @click="refresh">Refresh</v-btn>
     </v-toolbar>
 </template>
 
@@ -145,6 +171,7 @@ export default {
         return {
             datePickerActive: false,
             customizeFilterDialogActive: false,
+            loadFilterDialogActive: false,
             activeView: null,
             selectedDate: moment().format('YYYY-MM-DD'),
             selectedWeek: moment().startOf('isoWeek').format('YYYY-MM-DD'),

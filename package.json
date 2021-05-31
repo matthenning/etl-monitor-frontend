@@ -1,5 +1,5 @@
 {
-  "name": "cfe",
+  "name": "MyAppTitle",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,6 +8,7 @@
     "dev": "vue-cli-service build --mode development --watch --dest dist/dev"
   },
   "dependencies": {
+    "@vue/cli-plugin-pwa": "^4.5.12",
     "@vuex-orm/core": "^0.36",
     "@vuex-orm/plugin-axios": "^0.9",
     "axios": "^0.21.1",

@@ -14,7 +14,7 @@
                     <rect :x="boxOffsetX(exec, index)" :y="6" :height="dimensions.box_size" :width="dimensions.box_size" :id="id(index)"
                           :fill="fillBox(exec)" :stroke="strokeBox(exec)" rx="2" ry="2" />
 
-                    <rect v-if="isCurrentDay(exec)" :x="1" :y="3" :height="dimensions.box_size + 6" :width="dimensions.box_size + 6"
+                    <rect v-if="isCurrentDay(exec)" :x="boxOffsetX(exec, index) - 3" :y="3" :height="dimensions.box_size + 6" :width="dimensions.box_size + 6"
                           fill="transparent" :stroke="strokeBox(exec)" rx="3" ry="3" stroke-width="2" />
 
                     <circle v-if="exec.anomaly && exec.anomaly.length > 0"

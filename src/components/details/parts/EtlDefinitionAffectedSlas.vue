@@ -54,7 +54,7 @@ export default {
         return {
             dialog_tree_view: false,
             model: AutomicEtlDefinitionModel,
-            relations: [ 'statistic', 'affected_slas' ]
+            relations: [ 'statistic', 'affected_slas', 'affected_slas.statistic', 'affected_slas.tags' ]
         }
     },
 

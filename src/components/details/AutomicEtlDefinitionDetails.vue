@@ -72,7 +72,7 @@ export default {
     data () {
         return {
             model: AutomicEtlDefinitionModel,
-            relations: [ 'depends_on', 'affected_slas' ]
+            relations: [ 'depends_on', 'affected_slas', 'depends_on.statistic' ]
         }
     }
 

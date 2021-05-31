@@ -13,19 +13,19 @@ export default {
                 return {
                     text: '#ffffff',
                     success: {
-                        hint: '#d1f7f8',
-                        fill: '#96c8cc',
-                        stroke: '#91c3c7',
+                        hint: '#E0F2F1',
+                        fill: '#B2DFDB',
+                        stroke: '#80CBC4',
                     },
                     warning: {
-                        hint: '#ffcb91',
-                        fill: '#FFA726',
-                        stroke: '#FAA322',
+                        hint: '#FFF3E0',
+                        fill: '#FFE0B2',
+                        stroke: '#FFCC80',
                     },
                     critical: {
-                        hint: '#fae3e4',
-                        fill: '#fab9bf',
-                        stroke: '#f6b4ba',
+                        hint: '#FFEBEE',
+                        fill: '#FFCDD2',
+                        stroke: '#EF9A9A',
                     },
                     default: {
                         hint: '#e2e2e2',
@@ -52,19 +52,19 @@ export default {
                 return {
                     text: '#7c7c7c',
                     success: {
-                        hint: '#d1f7f8',
-                        fill: '#96c8cc',
-                        stroke: '#91c3c7',
+                        hint: '#E0F2F1',
+                        fill: '#B2DFDB',
+                        stroke: '#80CBC4',
                     },
                     warning: {
-                        hint: '#ffcb91',
-                        fill: '#FFA726',
-                        stroke: '#FAA322',
+                        hint: '#FFF3E0',
+                        fill: '#FFE0B2',
+                        stroke: '#FFCC80',
                     },
                     critical: {
-                        hint: '#fae3e4',
-                        fill: '#fab9bf',
-                        stroke: '#f6b4ba',
+                        hint: '#FFEBEE',
+                        fill: '#FFCDD2',
+                        stroke: '#EF9A9A',
                     },
                     default: {
                         hint: '#e2e2e2',

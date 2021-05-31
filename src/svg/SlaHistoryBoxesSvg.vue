@@ -14,7 +14,7 @@
                     <rect :x="boxOffsetX(day, index)" :y="6" :height="dimensions.box_size" :width="dimensions.box_size" :id="id(index)"
                           :fill="fillBox(day)" :stroke="strokeBox(day)" rx="2" ry="2" />
 
-                    <rect v-if="isCurrentDay(day)" :x="1" :y="3" :height="dimensions.box_size + 6" :width="dimensions.box_size + 6"
+                    <rect v-if="isCurrentDay(day)" :x="boxOffsetX(day, index) - 3" :y="3" :height="dimensions.box_size + 6" :width="dimensions.box_size + 6"
                           fill="transparent" :stroke="strokeBox(day)" rx="3" ry="3" stroke-width="2" />
                 </svg>
             </svg>

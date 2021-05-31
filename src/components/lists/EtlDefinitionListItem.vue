@@ -1,5 +1,5 @@
 <template>
-    <v-list-item v-if="object" :to="$link('etl', object.entity, object.id)">
+    <v-list-item v-if="object" :to="$link('etl', object._entity, object.id)">
         <slot name="prepended-actions"></slot>
 
         <v-list-item-avatar>
@@ -64,16 +64,6 @@ export default {
                 }
             })
         }
-    },
-
-    created () {
-        this.initial_load_done_hooks.push(() => {
-            if (!this.object.statistic) {
-                window.console.log('trying again')
-                this.ignore_linked = true
-                this.loadPage()
-            }
-        })
     }
 }
 </script>
